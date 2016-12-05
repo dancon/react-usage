@@ -1,0 +1,30 @@
+{
+  "name": "react-usage",
+  "version": "1.0.0",
+  "description": "react demos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dancon/react-usage.git"
+  },
+  "keywords": [
+    "react",
+    "webpack",
+    "es2015",
+    "babel"
+  ],
+  "author": "John Hou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dancon/react-usage/issues"
+  },
+  "homepage": "https://github.com/dancon/react-usage#readme",
+  "devDependencies": {
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "webpack": "^1.13.3"
+  }
+}
