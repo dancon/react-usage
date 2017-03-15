@@ -94,3 +94,30 @@ ReactDom.render(getGreeting(), container);
 
   setTimeout(tick, 1000);
 })();
+
+// 渲染 Component
+
+function Welcome(props){
+  return <h1>Hello, {props.name}</h1>;
+}
+
+const selfDefinedElement = <Welcome name="Sara"/>;
+
+ReactDom.render(selfDefinedElement, container);
+
+// 组装 Components
+
+function App(){
+  return (
+    <div>
+      <Welcome name="Sara" />
+      <Welcome name="Cahal" />
+      <Welcome name="Edite" />
+    </div>
+  );
+}
+
+ReactDom.render(
+  <App />,
+  container
+);

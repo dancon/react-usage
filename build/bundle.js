@@ -174,6 +174,35 @@
 	  setTimeout(tick, 1000);
 	})();
 
+	// 渲染 Component
+
+	function Welcome(props) {
+	  return _react2.default.createElement(
+	    'h1',
+	    null,
+	    'Hello, ',
+	    props.name
+	  );
+	}
+
+	var selfDefinedElement = _react2.default.createElement(Welcome, { name: 'Sara' });
+
+	_reactDom2.default.render(selfDefinedElement, container);
+
+	// 组装 Components
+
+	function App() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(Welcome, { name: 'Sara' }),
+	    _react2.default.createElement(Welcome, { name: 'Cahal' }),
+	    _react2.default.createElement(Welcome, { name: 'Edite' })
+	  );
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(App, null), container);
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
