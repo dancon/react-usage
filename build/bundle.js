@@ -46,14 +46,133 @@
 
 	'use strict';
 
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(32);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	/**
 	 * Created by John on 2017/3/15 0015.
 	 */
-	var React = __webpack_require__(1),
-	    ReactDom = __webpack_require__(32),
-	    AppComponent = __webpack_require__(178);
+	/*
+	var React = require('react'),
+	  ReactDom = require('react-dom'),
+	  AppComponent = require('./components/productBox.jsx');
 
-	ReactDom.render(React.createElement(AppComponent, null), document.getElementById('content'));
+	ReactDom.render(<AppComponent />, document.getElementById('content'));*/
+
+	var container = document.getElementById('content');
+
+	_reactDom2.default.render(_react2.default.createElement(
+	  'h1',
+	  null,
+	  'Hello world!'
+	), document.getElementById('content'));
+
+	/**
+	 * jsx 类似于模板引擎，只不过支持 js 的任意表达式，
+	 *
+	 * 我们可以在 jsx 中定义 react 元素，通过 花括号 {} 嵌入任意合法的 js 表达式
+	 * */
+
+	function formateName(user) {
+	  return user.firstName + ' ' + user.lastName;
+	}
+
+	var user = {
+	  firstName: 'John',
+	  lastName: 'Hou'
+	},
+	    element = _react2.default.createElement(
+	  'h1',
+	  null,
+	  'Hello, ',
+	  formateName(user)
+	);
+
+	_reactDom2.default.render(element, container);
+
+	/**
+	 * react element 在编译后也是一个普通的 javascript object
+	 *
+	 * 所以我们可以像使用 js 对象那样使用 react element
+	 *
+	 * Babel 在编译 jsx 的时候会调用 React.createElement() 方法来生成 DOM.
+	 *
+	 * 比如：
+	 *
+	 * const element = <h1 className="user-name">Hello, World!</h1>
+	 *
+	 * Babel 会编译为：
+	 *
+	 * React.createElement(
+	 *  'h1',
+	 *  {className: 'user-name'},
+	 *  'Hello, World!'
+	 * );
+	 *
+	 * 最后，React 会生成一个类似如下的对象：
+	 *
+	 * {
+	 *  type: 'h1',
+	 *  props: {
+	 *    className: 'user-name',
+	 *    children: 'Hello, World!'
+	 *  }
+	 * }
+	 * */
+
+	function getGreeting(user) {
+	  if (user) {
+	    return _react2.default.createElement(
+	      'h1',
+	      null,
+	      'Hello, ',
+	      formateName(user)
+	    );
+	  } else {
+	    return _react2.default.createElement(
+	      'h1',
+	      null,
+	      'Hello, Strange.'
+	    );
+	  }
+	}
+
+	_reactDom2.default.render(getGreeting(), container);
+
+	/**
+	 * 默认情况下，React 会在渲染前，转换任何嵌入到 jsx 中的表达式的值，避免 XSS
+	 * */
+
+	// 渲染 React Element
+	(function tick() {
+	  var element = _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'h1',
+	      null,
+	      'Hello, world!'
+	    ),
+	    _react2.default.createElement(
+	      'h2',
+	      null,
+	      'It is ',
+	      new Date().toLocaleTimeString()
+	    )
+	  ),
+	      timeContainer = document.getElementById('time-container');
+
+	  _reactDom2.default.render(element, timeContainer);
+
+	  setTimeout(tick, 1000);
+	})();
 
 /***/ },
 /* 1 */
@@ -21488,26 +21607,6 @@
 
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	module.exports = React.createClass({
-	  displayName: 'exports',
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Hello World!'
-	    );
-	  }
-	});
 
 /***/ }
 /******/ ]);
