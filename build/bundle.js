@@ -60,11 +60,11 @@
 	 * Created by John on 2017/3/15 0015.
 	 */
 	/*
-	var React = require('react'),
-	  ReactDom = require('react-dom'),
-	  AppComponent = require('./components/productBox.jsx');
+	 var React = require('react'),
+	 ReactDom = require('react-dom'),
+	 AppComponent = require('./components/productBox.jsx');
 
-	ReactDom.render(<AppComponent />, document.getElementById('content'));*/
+	 ReactDom.render(<AppComponent />, document.getElementById('content'));*/
 
 	var container = document.getElementById('content');
 
@@ -202,6 +202,88 @@
 	}
 
 	_reactDom2.default.render(_react2.default.createElement(App, null), container);
+
+	// 抽取 components
+
+	// 复杂的 comment component
+	function CommentP(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'comment' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'userInfo' },
+	      _react2.default.createElement('img', { src: props.user.avatar, alt: props.user.name }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'userInfo-name' },
+	        props.user.name
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'comment-text' },
+	      props.text
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'comment-date' },
+	      props.date
+	    )
+	  );
+	}
+
+	var author = {
+	  name: 'John',
+	  avatar: 'https://facebook.github.io/react/img/logo.svg'
+	};
+
+	_reactDom2.default.render(_react2.default.createElement(CommentP, {
+	  user: author,
+	  text: 'React \u7EC3\u4E60',
+	  date: new Date().toLocaleTimeString() }), document.getElementById('comment-container'));
+
+	// 抽取
+
+	// 用户头像
+	function Avatar(props) {
+	  return _react2.default.createElement('img', { src: props.user.avatar, alt: props.user.name, className: 'avatar' });
+	}
+
+	// 用户信息
+	function UserInfo(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'userInfo' },
+	    _react2.default.createElement(Avatar, { user: props.user }),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'userInfo-name' },
+	      props.user.name
+	    )
+	  );
+	}
+
+	// 评论
+	function Comment(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'comment' },
+	    _react2.default.createElement(UserInfo, { user: props.user }),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'comment-text' },
+	      props.text
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'comment-date' },
+	      props.date
+	    )
+	  );
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(Comment, { user: author, text: '\u62BD\u53D6\u51FA\u6765\u7684\u7EC4\u4EF6', date: Date.now() }), document.getElementById('comment-container-1'));
 
 /***/ },
 /* 1 */

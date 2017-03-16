@@ -62,3 +62,101 @@ React Dom 每次都会比较当前元素及其子元素与前一个的差别，�
 虽然我们重新创建了一个元素来更新界面，但是只有文本节点在更新。
 
 我们所考虑的是任意一时刻界面应该长什么样子，而不是考虑如何区修改元素。
+
+# Extracting Components
+
+不要害怕把组件抽取为更小的组件。
+
+请看如下组件：
+
+```
+    function CommentP(props) {
+      return (
+        <div className="comment">
+          <div className="userInfo">
+            <img src={props.user.avatar} alt={props.user.name}/>
+            <div className="userInfo-name">{props.user.name}</div>
+          </div>
+          <div className="comment-text">{props.text}</div>
+          <div className="comment-date">{props.date}</div>
+        </div>
+      );
+    }
+    
+    ReactDom.render(<CommentP
+      user={{
+        name: 'John',
+        avatar: 'https://facebook.github.io/react/img/logo.svg'
+      }}
+      text="React 练习"
+      date={new Date().toLocaleTimeString()}/>, document.getElementById('comment-container'));
+```
+
+该组件接收 user(Object) text(String) date(String) 作为参数，描述了一个社交网站常见的评论条。
+
+但是这个组件相对由于嵌套了多层 React Element 而变得难以修改，嵌套的元素也无法单独复用，接下来我们就开始把这个复杂的组件抽取为一些小的，可复用的组件。
+
+```
+    // 用户头像
+    function Avatar(props){
+      return (
+        <img src={props.user.avatar} alt={props.user.name} className="avatar"/>
+      );
+    }
+    
+    // 用户信息
+    function UserInfo(props){
+      return (
+        <div className="userInfo">
+          <Avatar user={props.user} />
+          <div className="userInfo-name">{props.user.name}</div>
+        </div>
+      );
+    }
+    
+    // 评论
+    function Comment(props){
+      return (
+        <div className="comment">
+          <UserInfo user={props.user} />
+          <div className="comment-text">{props.text}</div>
+          <div className="comment-date">{props.date}</div>
+        </div>
+      );
+    }
+    
+    ReactDom.render(
+      <Comment user={author} text="抽取出来的组件" date={Date.now()}/>,
+      document.getElementById('comment-container-1')
+    );
+```
+
+# Props are Read-Only
+
+无论你是使用 function 模式，还是 class 模式定义一个组件，绝对不能修改组件的 props 值。
+
+比如：
+
+```
+    functon sum(a, b){
+        return a + b;
+    }
+```
+
+sum 函数，没有修改自己的入参，只要入参相同，永远都返回相同的结果，这类函数叫做 “纯函数”。
+
+再比如：
+
+```
+    function withdraw(account, amount){
+        account.total -= amount;
+    }
+```
+
+这个函数就不纯了，它修改了自己的入参。
+
+虽说 React 是比较灵活的，但是却又一条铁则：
+
+**所有的 React 组件都必须是纯函数，不能修改自己的 props**
+
+然而，应用的界面必然会有动态改变的时候，接下来的部分，我们将介绍一个新的概念 “状态”，状态允许 React 组件在不违反这条铁则的前提下来修改用户界面。

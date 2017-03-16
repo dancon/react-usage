@@ -2,11 +2,11 @@
  * Created by John on 2017/3/15 0015.
  */
 /*
-var React = require('react'),
-  ReactDom = require('react-dom'),
-  AppComponent = require('./components/productBox.jsx');
+ var React = require('react'),
+ ReactDom = require('react-dom'),
+ AppComponent = require('./components/productBox.jsx');
 
-ReactDom.render(<AppComponent />, document.getElementById('content'));*/
+ ReactDom.render(<AppComponent />, document.getElementById('content'));*/
 
 import React from 'react';
 import ReactDom from 'react-dom';
@@ -24,7 +24,7 @@ ReactDom.render(
  * 我们可以在 jsx 中定义 react 元素，通过 花括号 {} 嵌入任意合法的 js 表达式
  * */
 
-function formateName(user){
+function formateName(user) {
   return user.firstName + ' ' + user.lastName;
 }
 
@@ -67,10 +67,10 @@ ReactDom.render(element, container);
  * }
  * */
 
-function getGreeting(user){
-  if(user){
+function getGreeting(user) {
+  if (user) {
     return <h1>Hello, {formateName(user)}</h1>
-  }else{
+  } else {
     return <h1>Hello, Strange.</h1>
   }
 }
@@ -82,7 +82,7 @@ ReactDom.render(getGreeting(), container);
  * */
 
 // 渲染 React Element
-(function tick(){
+(function tick() {
   const element = (
     <div>
       <h1>Hello, world!</h1>
@@ -97,7 +97,7 @@ ReactDom.render(getGreeting(), container);
 
 // 渲染 Component
 
-function Welcome(props){
+function Welcome(props) {
   return <h1>Hello, {props.name}</h1>;
 }
 
@@ -107,12 +107,12 @@ ReactDom.render(selfDefinedElement, container);
 
 // 组装 Components
 
-function App(){
+function App() {
   return (
     <div>
-      <Welcome name="Sara" />
-      <Welcome name="Cahal" />
-      <Welcome name="Edite" />
+      <Welcome name="Sara"/>
+      <Welcome name="Cahal"/>
+      <Welcome name="Edite"/>
     </div>
   );
 }
@@ -120,4 +120,65 @@ function App(){
 ReactDom.render(
   <App />,
   container
+);
+
+// 抽取 components
+
+// 复杂的 comment component
+function CommentP(props) {
+  return (
+    <div className="comment">
+      <div className="userInfo">
+        <img src={props.user.avatar} alt={props.user.name}/>
+        <div className="userInfo-name">{props.user.name}</div>
+      </div>
+      <div className="comment-text">{props.text}</div>
+      <div className="comment-date">{props.date}</div>
+    </div>
+  );
+}
+
+const author = {
+  name: 'John',
+  avatar: 'https://facebook.github.io/react/img/logo.svg'
+};
+
+ReactDom.render(<CommentP
+  user={author}
+  text="React 练习"
+  date={new Date().toLocaleTimeString()}/>, document.getElementById('comment-container'));
+
+// 抽取
+
+// 用户头像
+function Avatar(props){
+  return (
+    <img src={props.user.avatar} alt={props.user.name} className="avatar"/>
+  );
+}
+
+// 用户信息
+function UserInfo(props){
+  return (
+    <div className="userInfo">
+      <Avatar user={props.user} />
+      <div className="userInfo-name">{props.user.name}</div>
+    </div>
+  );
+}
+
+// 评论
+function Comment(props){
+  return (
+    <div className="comment">
+      <UserInfo user={props.user} />
+      <div className="comment-text">{props.text}</div>
+      <div className="comment-date">{props.date}</div>
+    </div>
+  );
+}
+
+ReactDom.render(
+  <Comment user={author} text="抽取出来的组件" date={Date.now()}/>,
+  document.getElementById('comment-container-1')
 );
