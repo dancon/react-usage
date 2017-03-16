@@ -182,3 +182,44 @@ ReactDom.render(
   <Comment user={author} text="抽取出来的组件" date={Date.now()}/>,
   document.getElementById('comment-container-1')
 );
+
+// 组件的状态
+/*
+function Clock(props){
+  return (
+    <div>
+      <h1>Hello, world!</h1>
+      <h2>It is {props.date.toLocaleString()}</h2>
+    </div>
+  );
+}
+
+function tick(){
+  ReactDom.render(
+    <Clock date={new Date} />,
+    document.getElementById('clock-container')
+  );
+}
+
+setInterval(tick, 1000);*/
+
+class Clock extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {date: new Date};
+  }
+
+  render(){
+    return (
+      <div>
+        <h1>Hello, World!</h1>
+        <h2>It is {this.state.date.toLocaleString()}</h2>
+      </div>
+    );
+  };
+}
+
+ReactDom.render(
+  <Clock />,
+  document.getElementById('clock-container')
+);

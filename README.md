@@ -160,3 +160,149 @@ sum 函数，没有修改自己的入参，只要入参相同，永远都返回�
 **所有的 React 组件都必须是纯函数，不能修改自己的 props**
 
 然而，应用的界面必然会有动态改变的时候，接下来的部分，我们将介绍一个新的概念 “状态”，状态允许 React 组件在不违反这条铁则的前提下来修改用户界面。
+
+# State and Lifecycle
+
+回想我们之前编写的 嘀嗒钟 的例子
+
+到目前为止，我们只学会了一种方式来更新用户界面，那就是 `ReactDom.render()`.
+
+这一部分我们将学习如何编写一个真正的可复用，封装良好的 Clock 组件。Clock 将自自己每个一秒设置自己的时间。
+
+首先封装好 clock 的界面。
+
+```
+    function Clock(props){
+      return (
+        <div>
+          <h1>Hello, world!</h1>
+          <h2>It is {props.date.toLocaleString()}</h2>
+        </div>
+      );
+    }
+    
+    function tick(){
+      ReactDom.render(
+        <Clock date={new Date} />,
+        document.getElementById('clock-container')
+      );
+    }
+    
+    setInterval(tick, 1000);
+```
+
+上面的例子中，Clock 更新时间并不是自己内部的逻辑。
+
+为了能让 Clock 自己更新时间，我们需要增加 state. 
+
+state 与 props 类似，但是是完全由 Component 自己控制的私有属性。
+
+我们之前也提到过，通过 ES2015 的 class 定义的 Component 具有额外的功能，本地状态（Local State）就是只有 class Component 具备的功能。
+
+# Converting a Function to a Class
+
+我们可以通过五步， 把函数式的 Clock 转换成 类式的 Component
+
+1. 创建一个同名的继承了 `React.Component` 的 ES6 的类。
+
+2. 在类内添加一个空的 render() 方法。
+
+3. 把函数体内的代码移动到 render() 方法内。
+
+4. 替换 render() 方法体中的 props 为 this.props.
+
+5. 删除函数式的 component.
+
+```
+    class Clock extends React.Component{
+      render(){
+        return (
+          <div>
+            <h1>Hello, World!</h1>
+            <h2>It is {this.props.date.toLocaleString()}</h2>
+          </div>
+        );
+      };
+    }
+```
+
+到这一步，我们就完成了类式组件的定义。
+
+现在开始我们就可以使用类式组件的新功能了，本地状态和生命周期钩子。
+
+# Adding Local State to a Class
+
+接下来，我们将使用三步，将 dete 的调用从 props 移动到 state 上。
+
+1）将 render() 方法中的 this.props.date 替换为 this.state.date.
+
+```
+    class Clock extends React.Component{
+       render(){
+         return (
+           <div>
+             <h1>Hello, World!</h1>
+             <h2>It is {this.state.date.toLocaleString()}</h2>
+           </div>
+         );
+       };
+     }
+```
+
+2) 添加类的构造函数 constructor, 初始化 this.state.
+
+```
+    class Clock extends React.Component{
+      constructor(props){
+        super(props);
+        this.state = {date: new Date};
+      }
+      
+      render(){
+        return (
+          <div>
+            <h1>Hello, World!</h1>
+            <h2>It is {this.state.date.toLocaleString()}</h2>
+          </div>
+        );
+      };
+    }
+```
+
+> 子类中我们必须通过 super 调用，把 props 传递到基类中。
+
+3）从 Clock 元素上移除 date 属性。
+
+```
+    ReactDom.render(
+      <Clock />,
+      document.getElementById('clock-container')
+    );
+```
+
+至此，整体代码结构如下，稍后我们再添加 Clock 自更新时间的逻辑。
+
+```
+    class Clock extends React.Component{
+      constructor(props){
+        super(props);
+        this.state = {date: new Date};
+      }
+    
+      render(){
+        return (
+          <div>
+            <h1>Hello, World!</h1>
+            <h2>It is {this.state.date.toLocaleString()}</h2>
+          </div>
+        );
+      };
+    }
+    
+    ReactDom.render(
+      <Clock />,
+      document.getElementById('clock-container')
+    );
+```
+
+# Adding Lifecycle Methods to a Class
