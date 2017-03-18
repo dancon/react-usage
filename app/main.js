@@ -209,6 +209,23 @@ class Clock extends React.Component{
     this.state = {date: new Date};
   }
 
+  // 声明周期方法：
+  componentDidMount(){
+    this.timeId = this.tick();
+  }
+
+  componentWillUnmount(){
+    clearTimeout(this.timeId);
+  }
+
+  tick(){
+    this.setState({
+      date: new Date()
+    });
+
+    return setTimeout(this.tick, 1000);
+  }
+
   render(){
     return (
       <div>

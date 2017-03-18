@@ -312,3 +312,90 @@ state 与 props 类似，但是是完全由 Component 自己控制的私有属�
 我们期望在 Clock 组件在渲染成 DOM 的时候就设置一个计时器，在 React 中，这种行为被称为 “装载”。
 
 同时我们也期望由 Clock 生成的 DOM 在被移除的时候能够清楚这个计时器，在 React 中，这种行为被称为 “卸载”。   
+
+我们可以在组件类内部声明一些方法，在组件转载和卸载的时候去执行一些代码：
+
+```
+  class Clock extends React.Component{
+    constructor(props){
+      super(props);
+      this.state = {date: new Date};
+    }
+  
+    // 声明周期方法：
+    componentDidMount(){
+      this.timeId = this.tick();
+    }
+  
+    componentWillUnmount(){
+      clearTimeout(this.timeId);
+    }
+  
+    tick(){
+      this.setState({
+        date: new Date()
+      });
+  
+      return setTimeout(this.tick, 1000);
+    }
+  
+    render(){
+      return (
+        <div>
+          <h1>Hello, World!</h1>
+          <h2>It is {this.state.date.toLocaleString()}</h2>
+        </div>
+      );
+    };
+  }
+```
+
+这些方法叫做声明周期钩子。
+
+`componentDidMount` 方法将在组件把返回的元素渲染成 DOM 元素后调用。这是设置计时器的最佳时期：
+
+```
+  componentDidMount(){
+    this.timeId = this.tick();
+  }
+```
+
+> NOTE: 这里我们在 this 对象上存储了计时器 ID
+
+在 React 组件初始化设置完 this.props 和 this.state 后，我们可以随时在 this 对象上存储一些与组件状态（也就是不会在组件界面中显示的字段）无关的字段。
+
+换句话，需要在 render() 方法中使用的字段，都必须存储在 this.state 对象上，否则存储在 this 对象上。
+
+`componentWillUnmount` 方法将在组件生成的 DOM 元素被移除是调用，所以我们在这个声明钩子中移除了计时器 Id
+
+```
+  componentsWillUnMount(){
+    clearTimeout(this.timeId);
+  }
+```
+
+最后，我们来实现 tick 方法，tick 方法体将使用 this.setState（) 方法来更新组件的状态。
+
+```
+  tick(){
+    this.setState({
+      date: new Date()
+    });
+    
+    return setIimeout(this.tick, 1000);
+  }
+```
+
+至此， Clock 就可以正常的运转了。
+
+接下来，我们快速的回顾下我们刚才做了什么，并整理下这些声明周期方法执行的顺序。
+
+1）当我们在 `<Clock />` 做为参数传递给 `ReactDom.render()` 方法的时候，React 会调用组件的构造方法。由于 Clock 要显示当前的时间，所以在 Clock 的构造函数中使用包含了当前时间的对象初始化了 this.state， 之后我们将更新这个时间。
+
+2）接下来，React 将调用组件的 render() 方法，React 通过这个方法来渲染组件界面，更新组件所匹配的 DOM 元素。
+
+3）当 Clock 返回的元素被插入到 DOM 树中后，componentsDidMount() 方法将被调用。方法体的内容是执行了 tick() 方法。
+
+4) tick() 通过 setState() 更新组件的当前的时间，并再次调用 tick. 多亏了 setState 方法，当 React 知道 state 发生变化后，会再次调用 render() 更新界面。
+
+5）一旦 Clock 组件被移除后，componentsWillUnMount 生命周期方法将被调用。清除计时器。
