@@ -306,3 +306,9 @@ state 与 props 类似，但是是完全由 Component 自己控制的私有属�
 ```
 
 # Adding Lifecycle Methods to a Class
+
+在由许多组件组成的应用中，能在组件销毁时，能及时的回收所占用的资源是非常重要的。
+
+我们期望在 Clock 组件在渲染成 DOM 的时候就设置一个计时器，在 React 中，这种行为被称为 “装载”。
+
+同时我们也期望由 Clock 生成的 DOM 在被移除的时候能够清楚这个计时器，在 React 中，这种行为被称为 “卸载”。   
