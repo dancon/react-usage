@@ -375,6 +375,107 @@
 
 	_reactDom2.default.render(_react2.default.createElement(Clock, null), document.getElementById('clock-container'));
 
+	var AppX = function (_React$Component2) {
+	  _inherits(AppX, _React$Component2);
+
+	  function AppX() {
+	    _classCallCheck(this, AppX);
+
+	    return _possibleConstructorReturn(this, (AppX.__proto__ || Object.getPrototypeOf(AppX)).apply(this, arguments));
+	  }
+
+	  _createClass(AppX, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(Clock, null),
+	        _react2.default.createElement(Clock, null),
+	        _react2.default.createElement(Clock, null)
+	      );
+	    }
+	  }]);
+
+	  return AppX;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(AppX, null), document.getElementById('app-container'));
+
+	// 绑定事件
+
+	var ActionLink = function (_React$Component3) {
+	  _inherits(ActionLink, _React$Component3);
+
+	  function ActionLink() {
+	    _classCallCheck(this, ActionLink);
+
+	    return _possibleConstructorReturn(this, (ActionLink.__proto__ || Object.getPrototypeOf(ActionLink)).apply(this, arguments));
+	  }
+
+	  _createClass(ActionLink, [{
+	    key: 'handlClick',
+	    value: function handlClick(event) {
+	      event.preventDefault();
+	      console.log('React the link is clicked');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'a',
+	        { onClick: this.handlClick, href: 'http://www.baidu.com' },
+	        'React \u767E\u5EA6\u4E00\u4E0B'
+	      );
+	    }
+	  }]);
+
+	  return ActionLink;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(ActionLink, null), document.getElementById('link-container'));
+
+	var Toggle = function (_React$Component4) {
+	  _inherits(Toggle, _React$Component4);
+
+	  function Toggle(props) {
+	    _classCallCheck(this, Toggle);
+
+	    var _this5 = _possibleConstructorReturn(this, (Toggle.__proto__ || Object.getPrototypeOf(Toggle)).call(this, props));
+
+	    _this5.state = {
+	      isToggleOn: true
+	    };
+
+	    _this5.handleClick = _this5.handleClick.bind(_this5);
+	    return _this5;
+	  }
+
+	  _createClass(Toggle, [{
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      this.setState(function (prevState) {
+	        return {
+	          isToggleOn: !prevState.isToggleOn
+	        };
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'button',
+	        { onClick: this.handleClick },
+	        this.state.isToggleOn ? 'ON' : 'OFF'
+	      );
+	    }
+	  }]);
+
+	  return Toggle;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(Toggle, null), document.getElementById('toggle-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {

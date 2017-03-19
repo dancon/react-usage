@@ -240,3 +240,69 @@ ReactDom.render(
   <Clock />,
   document.getElementById('clock-container')
 );
+
+class AppX extends React.Component{
+  render(){
+    return (
+      <div>
+        <Clock />
+        <Clock />
+        <Clock />
+      </div>
+    );
+  }
+}
+
+ReactDom.render(
+  <AppX />,
+  document.getElementById('app-container')
+);
+
+// 绑定事件
+class ActionLink extends React.Component{
+  handlClick(event){
+    event.preventDefault();
+    console.log('React the link is clicked');
+  }
+  
+  render(){
+    return (
+      <a onClick={this.handlClick} href="http://www.baidu.com">React 百度一下</a>
+    );
+  }
+}
+
+ReactDom.render(
+  <ActionLink />,
+  document.getElementById('link-container')
+);
+
+class Toggle extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      isToggleOn: true
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(){
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+  }
+
+  render(){
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.isToggleOn ? 'ON' : 'OFF'}
+      </button>
+    );
+  }
+}
+
+ReactDom.render(
+  <Toggle />,
+  document.getElementById('toggle-container')
+);
