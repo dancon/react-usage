@@ -223,7 +223,7 @@ class Clock extends React.Component{
       date: new Date()
     });
 
-    return setTimeout(this.tick, 1000);
+    return setTimeout(() => {this.tick();}, 1000);
   }
 
   render(){

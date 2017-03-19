@@ -382,7 +382,7 @@ state 与 props 类似，但是是完全由 Component 自己控制的私有属�
       date: new Date()
     });
     
-    return setIimeout(this.tick, 1000);
+    return setIimeout((() => {this.tick();}, 1000);
   }
 ```
 
@@ -399,3 +399,139 @@ state 与 props 类似，但是是完全由 Component 自己控制的私有属�
 4) tick() 通过 setState() 更新组件的当前的时间，并再次调用 tick. 多亏了 setState 方法，当 React 知道 state 发生变化后，会再次调用 render() 更新界面。
 
 5）一旦 Clock 组件被移除后，componentsWillUnMount 生命周期方法将被调用。清除计时器。
+
+# Using State Correctly
+
+关于 setState() 这里有三件事情需要注意:
+
+### 不能直接修改 state
+
+比如，如下
+
+```
+  this.state.comment = 'hello';
+```
+
+已上代码并不如触发组件的 re-render. 必须通过 setState() 函数来更新。
+
+```
+  this.state = {
+    comment: 'hello'
+  };
+```
+
+唯一可以直接给 state 赋值地方是组件的构造函数。
+
+### State 的更新可能是异步的
+
+React 为了性能，可能在单独的一个更新中，多次调用 setState() 方法。
+
+因为 this.props 和 this.state 属性值可能是异步更新的，所以我们不能依赖于直接使用这些属性的值来计算下一次更新的状态值。比如：
+
+```
+  this.setState({
+    counter: this.state.counter + this.props.increment
+  });
+```
+
+如上代码可能到不到我们预期的效果。
+
+要修复上述问题，我们可以使用 setState 方法接收函数的方式。 函数的接受两个参数，第一个参数是组件上一个 this.state 的值，第二个参数是 this.props 的当前值。
+
+```
+  this.setState((prevState, props) => ({
+    counter: prevState.counter + props.increment
+  }));
+```
+
+除了使用箭头函数外，我们还可以使用常规的函数
+
+```
+  this.setState(function(prevState, props){
+    return {
+      counter: prevState.counter + props.increment
+    }
+  });
+```
+
+### State Updates are Merged
+
+当你调用 setState 方法的时候，React 会把传给 setState 的对象合并到组件的当前状态中。
+
+比如：你的组件包含几个独立的变量，如下：
+
+```
+  constructor(){
+    super(props);
+    this.state = {
+      posts: [],
+      contents: []
+    }
+  }
+```
+
+然后你调用 setState 来单独的更新其中一个变量：
+
+```
+  componentsDidMount(){
+    fetchPosts().then(response => {
+      this.setState({
+        posts: response.posts
+      });
+    });
+    
+    fetchComments().then(response => {
+      this.setState({
+        comments: response.comments
+      });
+    });
+  }
+```
+
+# The Data Flows Down
+
+一个组件不管是处于父层还是子层，都无法知道另外一个组件是动态组件，还是静态组件，而且相互之间也不应该关心组件是通过函数式还是类式声明的。
+
+这也正是为什么 state 被称为本地属性或私有属性。一个组件的 state 属性值对另外一个组件是不可见的。
+
+但是一个组件的 state 值可以通过 props 的方式传递给他的自组建：
+
+```
+  <FormattedDate date={this.state.date} />
+```
+
+FormattedDate 组件通过自己的 props 属性接受了 date 值，但是他无法确定 date 曾经是 Clock 组件的 state 还是 props 还是有用户直接输入的。
+
+```
+  function FormattedDate(props){
+    return (<h2>It is {props.date.toLocaleTimeString()}</h2>);
+  }
+```
+
+通常这叫做“自顶向下” 或者 “单向” 的数据流。任何组件的 state 只能属于定义他的组件，任何有 state 驱动的数据或者 UI 只能影响组件树中位于当前组件底部的组件。
+
+我们可以把组件树理解成属性的瀑布流，每个组件的 state 就是一个额外的水源，他可以在任意节点汇入到瀑布流中，但是他也只能继续向下流。
+
+为了证明所有的组件实例都是相互隔离的，我们可以创建一个 App 组件，他的内容就是渲染三个 Clock 组件：
+
+```
+  function App(){
+    return (
+      <div>
+        <Clock />
+        <Clock />
+        <Clock />
+      </div>
+    );
+  }
+  
+  ReactDom.render(
+    <App />,
+    document.getElementById('app-container');
+  );
+```
+
+App 中的每个 Clock 都有自己的计时器，并且独立更新。
+
+在 React 应用中，一个组件是静态的还是动态的被认为是组件内部的实现细节,我们可以在动态组件用引用静态组件，反之亦然。
+

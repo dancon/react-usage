@@ -323,7 +323,33 @@
 	    return _this;
 	  }
 
+	  // 声明周期方法：
+
+
 	  _createClass(Clock, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.timeId = this.tick();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      clearTimeout(this.timeId);
+	    }
+	  }, {
+	    key: 'tick',
+	    value: function tick() {
+	      var _this2 = this;
+
+	      this.setState({
+	        date: new Date()
+	      });
+
+	      return setTimeout(function () {
+	        _this2.tick();
+	      }, 1000);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
