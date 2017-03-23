@@ -329,3 +329,198 @@ ReactDom.render(
   <LogginButton />,
   document.getElementById('log-container')
 );
+
+// React 条件
+
+function UserGreeting(){
+  return (
+    <h2>Welcome back!</h2>
+  );
+}
+
+function GuestGreeting(){
+  return (
+    <h2>please sign up.</h2>
+  );
+}
+
+function Greeting(props){
+  const isLoggedIn = props.isLoggedIn;
+
+  if(isLoggedIn){
+    return <UserGreeting />;
+  }
+
+  return <GuestGreeting />
+}
+
+ReactDom.render(
+  <Greeting isLoggedIn={true} />,
+  document.getElementById('greeting-container')
+);
+
+function LoginButton(props){
+  return (
+    <button onClick={props.onClick}>
+      Login
+    </button>
+  );
+}
+
+function LogoutButton(props){
+  return (
+    <button onClick={props.onClick}>
+      Logout
+    </button>
+  )
+}
+
+class LoginControl extends React.Component{
+  constructor(props){
+    super(props);
+
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+
+    this.state = {
+      isLoggedIn: false
+    }
+  }
+
+  handleLoginClick(){
+    this.setState({
+      isLoggedIn: true
+    });
+  }
+
+  handleLogoutClick(){
+    this.setState({
+      isLoggedIn: false
+    });
+  }
+
+  render(){
+    const isLoggedIn = this.state.isLoggedIn;
+
+    let button = null;
+
+    if(isLoggedIn){
+      button = <LogoutButton onClick={this.handleLogoutClick} />
+    }else{
+      button = <LoginButton onClick={this.handleLoginClick} />
+    }
+
+    return (
+      <div>
+        <Greeting isLoggedIn={isLoggedIn} />
+        <div>The user is <b>{isLoggedIn ? 'currently': 'not'}</b> logged in.</div>
+        {button}
+      </div>
+    );
+  }
+}
+
+ReactDom.render(
+  <LoginControl />,
+  document.getElementById('loginControl-container')
+);
+
+// 逻辑运算符 &&
+
+function Mailbox(props){
+  const unreadMessages = props.unreadMessages;
+
+  return (
+    <div>
+      <h1>Hello</h1>
+      {unreadMessages.length > 0 &&
+        <h2>You have {unreadMessages.length} unread messages.</h2>
+      }
+    </div>
+  );
+}
+
+const unreadMessages = ['React', 'Re:React', 'Re:Re:React'];
+ReactDom.render(
+  <Mailbox unreadMessages={unreadMessages} />,
+  document.getElementById('mailbox-container')
+);
+
+// 如果要隐藏元素本身，返回 null 即可
+
+/*function WarningBanner(props){
+  if(!props.warn){
+    return null;
+  }
+
+  return (
+    <div>
+      warning~
+    </div>
+  );
+}*/
+
+// 即使 component render 方法返回 null , 也不会影响声明周期方法的触发
+class WarningBanner extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
+  componentDidMount(){
+    console.log('Waring Component mounted');
+  }
+
+  componentWillUnmount(){
+    console.log('Warning Component will unmount');
+  }
+
+  componentDidUpdate(){
+    console.log('Warning Component did update');
+  }
+
+  componentWillUpdate(){
+    console.log('Warning Component will update');
+  }
+
+  render(){
+    if(!this.props.warn){
+      return null;
+    }
+    return (
+      <div>warning~</div>
+    );
+  }
+}
+
+class Page extends React.Component{
+  constructor(props){
+    super(props);
+    this.handleToggleClick = this.handleToggleClick.bind(this);
+
+    this.state = {
+      showWarning: true
+    };
+  }
+
+  handleToggleClick(){
+    this.setState(prevState => ({
+      showWarning: !prevState.showWarning
+    }));
+  }
+
+  render(){
+    return (
+      <div>
+        <WarningBanner warn={this.state.showWarning} />
+        <button onClick={this.handleToggleClick}>
+          {this.state.showWarning ? 'Hide' : 'Show'}
+        </button>
+      </div>
+    );
+  }
+}
+
+ReactDom.render(
+  <Page />,
+  document.getElementById('page-container')
+);

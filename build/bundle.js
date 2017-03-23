@@ -515,6 +515,255 @@
 
 	_reactDom2.default.render(_react2.default.createElement(LogginButton, null), document.getElementById('log-container'));
 
+	// React 条件
+
+	function UserGreeting() {
+	  return _react2.default.createElement(
+	    'h2',
+	    null,
+	    'Welcome back!'
+	  );
+	}
+
+	function GuestGreeting() {
+	  return _react2.default.createElement(
+	    'h2',
+	    null,
+	    'please sign up.'
+	  );
+	}
+
+	function Greeting(props) {
+	  var isLoggedIn = props.isLoggedIn;
+
+	  if (isLoggedIn) {
+	    return _react2.default.createElement(UserGreeting, null);
+	  }
+
+	  return _react2.default.createElement(GuestGreeting, null);
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(Greeting, { isLoggedIn: true }), document.getElementById('greeting-container'));
+
+	function LoginButton(props) {
+	  return _react2.default.createElement(
+	    'button',
+	    { onClick: props.onClick },
+	    'Login'
+	  );
+	}
+
+	function LogoutButton(props) {
+	  return _react2.default.createElement(
+	    'button',
+	    { onClick: props.onClick },
+	    'Logout'
+	  );
+	}
+
+	var LoginControl = function (_React$Component6) {
+	  _inherits(LoginControl, _React$Component6);
+
+	  function LoginControl(props) {
+	    _classCallCheck(this, LoginControl);
+
+	    var _this8 = _possibleConstructorReturn(this, (LoginControl.__proto__ || Object.getPrototypeOf(LoginControl)).call(this, props));
+
+	    _this8.handleLoginClick = _this8.handleLoginClick.bind(_this8);
+	    _this8.handleLogoutClick = _this8.handleLogoutClick.bind(_this8);
+
+	    _this8.state = {
+	      isLoggedIn: false
+	    };
+	    return _this8;
+	  }
+
+	  _createClass(LoginControl, [{
+	    key: 'handleLoginClick',
+	    value: function handleLoginClick() {
+	      this.setState({
+	        isLoggedIn: true
+	      });
+	    }
+	  }, {
+	    key: 'handleLogoutClick',
+	    value: function handleLogoutClick() {
+	      this.setState({
+	        isLoggedIn: false
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var isLoggedIn = this.state.isLoggedIn;
+
+	      var button = null;
+
+	      if (isLoggedIn) {
+	        button = _react2.default.createElement(LogoutButton, { onClick: this.handleLogoutClick });
+	      } else {
+	        button = _react2.default.createElement(LoginButton, { onClick: this.handleLoginClick });
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(Greeting, { isLoggedIn: isLoggedIn }),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'The user is ',
+	          _react2.default.createElement(
+	            'b',
+	            null,
+	            isLoggedIn ? 'currently' : 'not'
+	          ),
+	          ' logged in.'
+	        ),
+	        button
+	      );
+	    }
+	  }]);
+
+	  return LoginControl;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(LoginControl, null), document.getElementById('loginControl-container'));
+
+	// 逻辑运算符 &&
+
+	function Mailbox(props) {
+	  var unreadMessages = props.unreadMessages;
+
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'h1',
+	      null,
+	      'Hello'
+	    ),
+	    unreadMessages.length > 0 && _react2.default.createElement(
+	      'h2',
+	      null,
+	      'You have ',
+	      unreadMessages.length,
+	      ' unread messages.'
+	    )
+	  );
+	}
+
+	var unreadMessages = ['React', 'Re:React', 'Re:Re:React'];
+	_reactDom2.default.render(_react2.default.createElement(Mailbox, { unreadMessages: unreadMessages }), document.getElementById('mailbox-container'));
+
+	// 如果要隐藏元素本身，返回 null 即可
+
+	/*function WarningBanner(props){
+	  if(!props.warn){
+	    return null;
+	  }
+
+	  return (
+	    <div>
+	      warning~
+	    </div>
+	  );
+	}*/
+
+	// 即使 component render 方法返回 null , 也不会影响声明周期方法的触发
+
+	var WarningBanner = function (_React$Component7) {
+	  _inherits(WarningBanner, _React$Component7);
+
+	  function WarningBanner(props) {
+	    _classCallCheck(this, WarningBanner);
+
+	    return _possibleConstructorReturn(this, (WarningBanner.__proto__ || Object.getPrototypeOf(WarningBanner)).call(this, props));
+	  }
+
+	  _createClass(WarningBanner, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log('Waring Component mounted');
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      console.log('Warning Component will unmount');
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      console.log('Warning Component did update');
+	    }
+	  }, {
+	    key: 'componentWillUpdate',
+	    value: function componentWillUpdate() {
+	      console.log('Warning Component will update');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (!this.props.warn) {
+	        return null;
+	      }
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'warning~'
+	      );
+	    }
+	  }]);
+
+	  return WarningBanner;
+	}(_react2.default.Component);
+
+	var Page = function (_React$Component8) {
+	  _inherits(Page, _React$Component8);
+
+	  function Page(props) {
+	    _classCallCheck(this, Page);
+
+	    var _this10 = _possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this, props));
+
+	    _this10.handleToggleClick = _this10.handleToggleClick.bind(_this10);
+
+	    _this10.state = {
+	      showWarning: true
+	    };
+	    return _this10;
+	  }
+
+	  _createClass(Page, [{
+	    key: 'handleToggleClick',
+	    value: function handleToggleClick() {
+	      this.setState(function (prevState) {
+	        return {
+	          showWarning: !prevState.showWarning
+	        };
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(WarningBanner, { warn: this.state.showWarning }),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.handleToggleClick },
+	          this.state.showWarning ? 'Hide' : 'Show'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Page;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(Page, null), document.getElementById('page-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
