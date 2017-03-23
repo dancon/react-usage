@@ -306,3 +306,26 @@ ReactDom.render(
   <Toggle />,
   document.getElementById('toggle-container')
 );
+
+class LogginButton extends React.Component{
+  /*handleClick = () => {
+    console.log('this is:', this);
+  }*/
+
+  handleClick(){
+    console.log('this is:', this);
+  }
+
+  render(){
+    return (
+      <button onClick={event => {this.handleClick(event)}}>
+        Click me
+      </button>
+    );
+  }
+}
+
+ReactDom.render(
+  <LogginButton />,
+  document.getElementById('log-container')
+);

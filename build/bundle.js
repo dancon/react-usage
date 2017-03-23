@@ -476,6 +476,45 @@
 
 	_reactDom2.default.render(_react2.default.createElement(Toggle, null), document.getElementById('toggle-container'));
 
+	var LogginButton = function (_React$Component5) {
+	  _inherits(LogginButton, _React$Component5);
+
+	  function LogginButton() {
+	    _classCallCheck(this, LogginButton);
+
+	    return _possibleConstructorReturn(this, (LogginButton.__proto__ || Object.getPrototypeOf(LogginButton)).apply(this, arguments));
+	  }
+
+	  _createClass(LogginButton, [{
+	    key: 'handleClick',
+
+	    /*handleClick = () => {
+	      console.log('this is:', this);
+	    }*/
+
+	    value: function handleClick() {
+	      console.log('this is:', this);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this7 = this;
+
+	      return _react2.default.createElement(
+	        'button',
+	        { onClick: function onClick(event) {
+	            _this7.handleClick(event);
+	          } },
+	        'Click me'
+	      );
+	    }
+	  }]);
+
+	  return LogginButton;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(LogginButton, null), document.getElementById('log-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {

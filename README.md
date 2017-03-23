@@ -535,3 +535,148 @@ App 中的每个 Clock 都有自己的计时器，并且独立更新。
 
 在 React 应用中，一个组件是静态的还是动态的被认为是组件内部的实现细节,我们可以在动态组件用引用静态组件，反之亦然。
 
+# Handling Events
+
+为 React 元素绑定事件和为 DOM 元素绑定事件是非常相似的，仅仅是语法上的区别：
+
+* React 事件是通过驼峰式属性来绑定事件处理器的，而不是小写方式。
+
+* 在 JSX 中传递函数来作为处理器，而不是字符串。
+
+比如：
+
+```
+  <button onclick="activateLasers()">
+    Active lasers
+  </button>
+```
+
+和 React 事件绑定的区别是非常微小的。
+
+```
+  <button onClick={activateLasers}>
+    Active lasers
+  </button>
+```
+
+另外一个比较大的区别是：
+
+在 React 中，不能在事件处理器中返回 false 来阻止元素的默认行为，必须显示的调用 preventDefault() 方法。
+
+在纯 Html 页面中，要阻止一个超链接的默认行为（打开新的页面），我们可以通过以下代码实现：
+
+```
+  <a href="#" onclick="console.log('The link was clicked.'); return false">
+    Click me
+  </a>
+```
+
+在 React 中要实现同样的效果，只能如下：
+
+```
+  class ActionLink extends React.Component{
+    handlClick(event){
+      event.preventDefault();
+      console.log('React the link is clicked');
+    }
+    
+    render(){
+      return (
+        <a onClick={this.handlClick} href="http://www.baidu.com">React 百度一下</a>
+      );
+    }
+  }
+  
+  ReactDom.render(
+    <ActionLink />,
+    document.getElementById('link-container')
+  );
+```
+
+其中，`event` 是并不是原生的事件对象，而是 React 遵循 W3C 规范重新合成的事件对象，所以我们也不需要考虑兼容性问题。
+
+使用 React 我们并不需要等到 React 元素真正渲染到 DOM 中侯再 调用 `addEventLister` 方法来为元素绑定事件，只需要在元素渲染的时候提供一个监听器就可以了。
+
+在使用 ES6 的 class 定义一个组件的时候，绑定事件的通用模式是把事件处理器作为类的一个方法。如下代码：渲染了一个按钮，使用户在点击的时候能够在 ON / OFF 两个状态间切换。
+
+```
+  class Toggle extends React.Component{
+    constructor(props){
+      super(props);
+      this.state = {
+        isToggleOn: true
+      };
+  
+      this.handleClick = this.handleClick.bind(this);
+    }
+  
+    handleClick(){
+      this.setState(prevState => ({
+        isToggleOn: !prevState.isToggleOn
+      }));
+    }
+  
+    render(){
+      return (
+        <button onClick={this.handleClick}>
+          {this.state.isToggleOn ? 'ON' : 'OFF'}
+        </button>
+      );
+    }
+  }
+  
+  ReactDom.render(
+    <Toggle />,
+    document.getElementById('toggle-container')
+  );
+```
+
+此时，我们必须注意 `this` 在 JSX 回调中的含义，class 中在事件回调并不会默认把 this 指向当前类对象。如果你忘记绑定 this, 并把该方法作为事件回调，那么在方法真正被调用的时候 this 将是 undefined.
+
+如果显示调用 `bind` 绑定让你不爽，那么你可以尝试以下两种方式：
+
+1. 使用 `property initializer syntax`
+
+```
+  class LogginButton extends React.Component{
+    handleClick = () => {
+      console.log('this is:', this);
+    }
+  
+    render(){
+      return (
+        <button onClick={this.handleClick}>Click me</button>
+      );
+    }
+  }
+  
+  ReactDom.render(
+    <LogginButton />,
+    document.getElementById('log-container')
+  );
+```
+
+> React 默认并不支持这种语法
+
+2. 绑定事件时，使用箭头函数
+
+```
+  class LogginButton extends React.Component{
+      handleClick() {
+        console.log('this is:', this);
+      }
+    
+      render(){
+        return (
+          <button onClick={event => {this.handleClick(event);}}>Click me</button>
+        );
+      }
+    }
+    
+    ReactDom.render(
+      <LogginButton />,
+      document.getElementById('log-container')
+    );
+```
+
+> 但是这种用法是有弊端的，每次点击的时候都会创建一个新的回调函数作为事件处理器，在大多数的场景下还是可以接受的。但是如果我们在这个回调函数作为属性值传递到子组件中时，那么父级和相关子组件都将产生额外的重新渲染，所以通常情况下，我们推荐在构造函数显示绑定或者使用 `property initializer syntax` 来避免这种性能问题。
