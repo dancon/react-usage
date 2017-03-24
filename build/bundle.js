@@ -764,6 +764,178 @@
 
 	_reactDom2.default.render(_react2.default.createElement(Page, null), document.getElementById('page-container'));
 
+	// Lists and Keys
+
+	/*
+	const numbers = [1, 2, 3, 4, 5];
+	const listItems = numbers.map((number) => {
+	    return (<li>{number}</li>)
+	  }
+	);
+
+	ReactDom.render(
+	  <ul>{listItems}</ul>,
+	  document.getElementById('list-container')
+	);
+	*/
+
+	function NumberList(props) {
+	  var numbers = props.numbers;
+	  var listItems = numbers.map(function (number) {
+	    return _react2.default.createElement(
+	      'li',
+	      { key: number.toString() },
+	      number
+	    );
+	  });
+
+	  return _react2.default.createElement(
+	    'ul',
+	    null,
+	    listItems
+	  );
+	}
+
+	var numbers = [1, 2, 3, 4, 5];
+	_reactDom2.default.render(_react2.default.createElement(NumberList, { numbers: numbers }), document.getElementById('list-container'));
+
+	/**
+	 * React 中 key 是在遍历总用来唯一标识每一项的，最好是使用 遍历对象的唯一 id 来作为 key, 如果没有，使用项的索引也是可以的，但是在数组会重排的情况下，索引是不推荐作为 key 的。
+	 * */
+
+	function ListItem(props) {
+	  var value = props.value;
+	  return _react2.default.createElement(
+	    'li',
+	    { key: value.toString() },
+	    value
+	  );
+	}
+
+	/**
+	 * key 只在遍历的上下文中生效，所以在 ListItem Components 中指定 key 是没有用的，以下代码依旧会有 React warning.
+	 * */
+
+	function NumberListX(props) {
+	  var numbers = props.number;
+	  var items = numbers.map(function (number) {
+	    return _react2.default.createElement(ListItem, { value: number });
+	  });
+
+	  return _react2.default.createElement(
+	    'ul',
+	    null,
+	    items
+	  );
+	}
+
+	/*ReactDom.render(
+	  <NumberListX number={numbers} />,
+	  document.getElementById('listx-container')
+	);*/
+
+	// 修改版
+	function ListItemX(props) {
+	  var value = props.value;
+	  return _react2.default.createElement(
+	    'li',
+	    null,
+	    value
+	  );
+	}
+
+	function NumberListxx(props) {
+	  var numbers = props.number;
+	  var items = numbers.map(function (number) {
+	    return _react2.default.createElement(ListItemX, { key: number, value: number });
+	  });
+
+	  return _react2.default.createElement(
+	    'ul',
+	    null,
+	    items
+	  );
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(NumberListxx, { number: numbers }), document.getElementById('listx-container'));
+
+	/**
+	 * key 在某次遍历中必须是唯一的，但是全局中并不需要唯一，可以在两次遍历中使用相同的 key 值
+	 * */
+
+	function Post(props) {
+	  var posts = props.posts,
+
+	  // 我们可以把这次遍历直接 inline 到 JSX 中，不用单独声明一个变量来存储
+	  /*siderBar = (
+	    <ul>
+	      {
+	        posts.map(post => (
+	          <li key={post.id}>{props.id && post.id}{post.title}</li>
+	        ))
+	      }
+	    </ul>
+	  ),*/
+	  content = _react2.default.createElement(
+	    'ul',
+	    null,
+	    posts.map(function (post) {
+	      return _react2.default.createElement(
+	        'li',
+	        { key: post.id },
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            post.title
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            post.content
+	          )
+	        )
+	      );
+	    })
+	  );
+
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'ul',
+	      null,
+	      posts.map(function (post) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: post.id },
+	          props.id && post.id,
+	          post.title
+	        );
+	      })
+	    ),
+	    _react2.default.createElement('hr', null),
+	    content
+	  );
+	}
+
+	var posts = [{ id: 111, title: 'Hello, world', content: 'This is a beautiful world' }, { id: 112, title: 'React array', content: 'key is very strange' }];
+
+	_reactDom2.default.render(_react2.default.createElement(Post, { posts: posts }), document.getElementById('post-container'));
+
+	/**
+	 * key 仅仅是 React 中的一个标识，并不会传递到组件内部
+	 * 如下： 你可以访问到 props.id 但是访问不到 props.key
+	 * */
+
+	var content = posts.map(function (post) {
+	  return _react2.default.createElement(Post, { key: post.id, id: post.id });
+	});
+
+	//
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {

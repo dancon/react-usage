@@ -524,3 +524,163 @@ ReactDom.render(
   <Page />,
   document.getElementById('page-container')
 );
+
+// Lists and Keys
+
+/*
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) => {
+    return (<li>{number}</li>)
+  }
+);
+
+ReactDom.render(
+  <ul>{listItems}</ul>,
+  document.getElementById('list-container')
+);
+*/
+
+function NumberList(props){
+  const numbers = props.numbers;
+  const listItems = numbers.map(number => {
+    return (<li key={number.toString()}>{number}</li>);
+  });
+
+  return (
+    <ul>{listItems}</ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDom.render(
+  <NumberList numbers={numbers} />,
+  document.getElementById('list-container')
+);
+
+/**
+ * React 中 key 是在遍历总用来唯一标识每一项的，最好是使用 遍历对象的唯一 id 来作为 key, 如果没有，使用项的索引也是可以的，但是在数组会重排的情况下，索引是不推荐作为 key 的。
+ * */
+
+function ListItem(props){
+  const value = props.value;
+  return (
+    <li key={value.toString()}>
+      {value}
+    </li>
+  );
+}
+
+/**
+ * key 只在遍历的上下文中生效，所以在 ListItem Components 中指定 key 是没有用的，以下代码依旧会有 React warning.
+ * */
+
+function NumberListX(props) {
+  const numbers = props.number;
+  const items = numbers.map(number => (
+    <ListItem value={number} />
+  ));
+
+  return (
+    <ul>
+      {items}
+    </ul>
+  );
+}
+
+/*ReactDom.render(
+  <NumberListX number={numbers} />,
+  document.getElementById('listx-container')
+);*/
+
+// 修改版
+function ListItemX(props){
+  const value = props.value;
+  return (
+    <li>{value}</li>
+  );
+}
+
+function NumberListxx(props){
+  const numbers = props.number;
+  const items = numbers.map(number => (
+    <ListItemX key={number} value={number} />
+  ));
+
+  return (
+    <ul>
+      {items}
+    </ul>
+  );
+}
+
+ReactDom.render(
+  <NumberListxx number={numbers} />,
+  document.getElementById('listx-container')
+);
+
+/**
+ * key 在某次遍历中必须是唯一的，但是全局中并不需要唯一，可以在两次遍历中使用相同的 key 值
+ * */
+
+function Post(props){
+  const posts = props.posts,
+    // 我们可以把这次遍历直接 inline 到 JSX 中，不用单独声明一个变量来存储
+    /*siderBar = (
+      <ul>
+        {
+          posts.map(post => (
+            <li key={post.id}>{props.id && post.id}{post.title}</li>
+          ))
+        }
+      </ul>
+    ),*/
+    content = (
+      <ul>
+        {
+          posts.map(post => (
+            <li key={post.id}>
+              <div>
+                <h3>{post.title}</h3>
+                <p>{post.content}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    );
+
+  return (
+    <div>
+      <ul>
+        {
+          posts.map(post => (
+            <li key={post.id}>{props.id && post.id}{post.title}</li>
+          ))
+        }
+      </ul>
+      <hr />
+      {content}
+    </div>
+  );
+}
+
+const posts = [
+  {id: 111, title: 'Hello, world', content: 'This is a beautiful world'},
+  {id: 112, title: 'React array', content: 'key is very strange'}
+];
+
+ReactDom.render(
+  <Post posts={posts} />,
+  document.getElementById('post-container')
+);
+
+/**
+ * key 仅仅是 React 中的一个标识，并不会传递到组件内部
+ * 如下： 你可以访问到 props.id 但是访问不到 props.key
+ * */
+
+const content = posts.map(post => (
+  <Post key={post.id} id={post.id}></Post>
+));
+
+//
