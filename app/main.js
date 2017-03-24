@@ -683,4 +683,188 @@ const content = posts.map(post => (
   <Post key={post.id} id={post.id}></Post>
 ));
 
-//
+/**
+ * React 中的 form 表单如果想实现提交时通过一个函数来处理，而不是默认的提交到一个新页面，那么我们可以通过 Controlled Component 来实现，也就是说 input 等 form element 的值由 React 来维护，也方便统一做校验，修改等
+ * */
+
+class NameForm extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      value: ''
+    }
+
+    const handler = ['handleChange', 'handleSubmit'];
+    handler.forEach(method => {
+      this[method] = this[method].bind(this);
+    });
+  }
+
+  handleChange(event){
+    this.setState({
+      value: event.target.value.toUpperCase()
+    });
+  }
+
+  handleSubmit(event){
+    event.preventDefault();
+    alert('A name is submitted:' + this.state.value);
+  }
+
+  render(){
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value='Submit' />
+      </form>
+    );
+  }
+}
+
+ReactDom.render(
+  <NameForm />,
+  document.getElementById('form-container')
+);
+
+// React 中的 textarea
+
+class EssayForm extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      value: 'Please write a essay about you favorite form element.'
+    }
+    const handler = ['handleChange','handleSubmit'];
+    handler.forEach(method => {
+      this[method] = this[method].bind(this);
+    })
+  }
+
+  handleChange(event){
+    this.setState({
+      value: event.target.value
+    });
+  }
+
+  handleSubmit(event){
+    event.preventDefault();
+    alert('A essay is submitted:' + this.state.value);
+  }
+
+  render(){
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Essay:
+          <textarea value={this.state.value} onChange={this.handleChange}></textarea>
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
+ReactDom.render(
+  <EssayForm />,
+  document.getElementById('essay-container')
+);
+
+// React select form element
+
+class FlavorForm extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      value: 'coconut'
+    }
+    const handler = ['handleChange','handleSubmit'];
+    handler.forEach(method => {
+      this[method] = this[method].bind(this);
+    })
+  }
+
+  handleChange(event){
+    this.setState({
+      value: event.target.value
+    });
+  }
+
+  handleSubmit(event){
+    event.preventDefault();
+    alert('A favorite flavor is submitted:' + this.state.value);
+  }
+
+  render(){
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Pick you favorite La Croix flavor:
+          <select value={this.state.value} onChange={this.handleChange}>
+            <option value="grapefrute">Grapefrute</option>
+            <option value="lime">Lime</option>
+            <option value="coconut">Coconut</option>
+          </select>
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
+ReactDom.render(
+  <FlavorForm />,
+  document.getElementById('flavor-container')
+);
+
+// Multiple inputs
+class Reservation extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuest: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event){
+    const target = event.target,
+      name = target.name,
+      value = target.type == 'checkbox' ? target.checked : target.value;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render(){
+    let output = null;
+    if(this.state.isGoing){
+      output = <output>将有{this.state.numberOfGuest}人出席</output>
+    }else{
+      output = <output>没有人出席。</output>
+    }
+    return (
+      <div>
+        <label>
+          是否出席：
+          <input type="checkbox" checked={this.state.isGoing} onChange={this.handleInputChange} name="isGoing" />
+        </label>
+        <label>
+          出席人数：
+          <input type="number" value={this.state.numberOfGuest} onChange={this.handleInputChange} name="numberOfGuest"/>
+        </label>
+        {output}
+      </div>
+    );
+  }
+}
+
+ReactDom.render(
+  <Reservation />,
+  document.getElementById('multiple-input')
+);
