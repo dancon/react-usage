@@ -1194,6 +1194,164 @@
 
 	_reactDom2.default.render(_react2.default.createElement(Reservation, null), document.getElementById('multiple-input'));
 
+	// 状态提升
+	function BoilingVerdict(props) {
+	  if (props.celsius >= 100) {
+	    return _react2.default.createElement(
+	      'p',
+	      null,
+	      'The water would boil.'
+	    );
+	  }
+
+	  return _react2.default.createElement(
+	    'p',
+	    null,
+	    'The water would not boil.'
+	  );
+	}
+
+	var scaleName = {
+	  c: 'Celsius',
+	  f: 'Fahrenheit'
+	};
+
+	var TemperatureInput = function (_React$Component13) {
+	  _inherits(TemperatureInput, _React$Component13);
+
+	  function TemperatureInput(props) {
+	    _classCallCheck(this, TemperatureInput);
+
+	    var _this15 = _possibleConstructorReturn(this, (TemperatureInput.__proto__ || Object.getPrototypeOf(TemperatureInput)).call(this, props));
+
+	    _this15.handleChange = _this15.handleChange.bind(_this15);
+	    return _this15;
+	  }
+
+	  _createClass(TemperatureInput, [{
+	    key: 'handleChange',
+	    value: function handleChange(event) {
+	      this.props.onTemperatureChange(event.target.value);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var temperature = this.props.temperature,
+	          scale = this.props.scale;
+
+	      return _react2.default.createElement(
+	        'fieldset',
+	        null,
+	        _react2.default.createElement(
+	          'legend',
+	          null,
+	          'Please Enter temperature in ',
+	          scaleName[scale]
+	        ),
+	        _react2.default.createElement('input', { type: 'text', value: temperature, onChange: this.handleChange })
+	      );
+	    }
+	  }]);
+
+	  return TemperatureInput;
+	}(_react2.default.Component);
+
+	// fahrenheit to celsius
+
+
+	function toCelsius(fahrenheit) {
+	  return (fahrenheit - 32) * 5 / 9;
+	}
+
+	// celsius to fahrenheit
+	function toFahrenheit(celsius) {
+	  return celsius * 9 / 5 + 32;
+	}
+
+	// convert to string
+	function tryConvert(temperature, convert) {
+	  var input = parseFloat(temperature);
+	  if (Number.isNaN(input)) {
+	    return '';
+	  }
+
+	  var output = convert(input),
+	      rounded = Math.round(output * 1000) / 1000;
+
+	  return rounded + '';
+	}
+
+	var Calculator = function (_React$Component14) {
+	  _inherits(Calculator, _React$Component14);
+
+	  function Calculator(props) {
+	    _classCallCheck(this, Calculator);
+
+	    /*
+	    this.state = {
+	      temperature: ''
+	    }
+	     this.handleChange = this.handleChange.bind(this);*/
+	    var _this16 = _possibleConstructorReturn(this, (Calculator.__proto__ || Object.getPrototypeOf(Calculator)).call(this, props));
+
+	    _this16.state = {
+	      scale: 'c',
+	      temperature: ''
+	    };
+	    _this16.handleCelsiusChange = _this16.handleCelsiusChange.bind(_this16);
+	    _this16.handleFahrenheitChange = _this16.handleFahrenheitChange.bind(_this16);
+	    return _this16;
+	  }
+
+	  _createClass(Calculator, [{
+	    key: 'handleCelsiusChange',
+	    value: function handleCelsiusChange(temperature) {
+	      this.setState({ scale: 'c', temperature: temperature });
+	    }
+	  }, {
+	    key: 'handleFahrenheitChange',
+	    value: function handleFahrenheitChange(temperature) {
+	      this.setState({ scale: 'f', temperature: temperature });
+	    }
+
+	    /*handleChange(event){
+	      this.setState({
+	        temperature: event.target.value
+	      });
+	    }*/
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      /*const temperature = this.state.temperature;
+	      return (
+	        <fieldset>
+	          <legend>Enter temperature in Celsius:</legend>
+	          <input type="text" onChange={this.handleChange} value={this.state.temperature} />
+	          <BoilingVerdict celsius={parseFloat(temperature)}/>
+	        </fieldset>
+	      );*/
+
+	      var scale = this.state.scale,
+	          temperature = this.state.temperature,
+	          celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature,
+	          fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(TemperatureInput, { scale: 'c', temperature: celsius, onTemperatureChange: this.handleCelsiusChange }),
+	        _react2.default.createElement(TemperatureInput, { scale: 'f', temperature: fahrenheit, onTemperatureChange: this.handleFahrenheitChange }),
+	        _react2.default.createElement(BoilingVerdict, { celsius: celsius })
+	      );
+	    }
+	  }]);
+
+	  return Calculator;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(Calculator, null), document.getElementById('boiling-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
