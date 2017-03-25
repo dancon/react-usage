@@ -1352,6 +1352,162 @@
 
 	_reactDom2.default.render(_react2.default.createElement(Calculator, null), document.getElementById('boiling-container'));
 
+	// composition
+	/**
+	 * children 是一个特殊的属性，他会把 React 元素标签中的所有内容赋值给该属性
+	 * */
+
+	function FancyBorder(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: "FancyBorder FancyBorder-" + props.color },
+	    props.children
+	  );
+	}
+
+	function WelcomeDialog() {
+	  return _react2.default.createElement(
+	    FancyBorder,
+	    { color: 'blue' },
+	    _react2.default.createElement(
+	      'h1',
+	      { className: 'dialog-title' },
+	      'Welcome'
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      { className: 'dialog-message' },
+	      'Thank you visiting out website.'
+	    )
+	  );
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(WelcomeDialog, null), document.getElementById('dialog-container'));
+
+	// React 中的多个坑位就需要通过属性来实现了，由于 React Component 也是一个对象，所以我们可以像使用 js 对象那样通过组件的属性来传递 React 组件。
+
+	function SplitPane(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'splitPane' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'splitPane-left' },
+	      props.left
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'splitPane-right' },
+	      props.right
+	    )
+	  );
+	}
+
+	function Contacts() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    'Left'
+	  );
+	}
+
+	function Chat() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    'Right'
+	  );
+	}
+
+	function App() {
+	  return _react2.default.createElement(SplitPane, {
+	    left: _react2.default.createElement(Contacts, null),
+	    right: _react2.default.createElement(Chat, null)
+	  });
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('split-container'));
+
+	// 如果某个组件是另外一个组件的特殊实例，我们可以在特殊实例中渲染通用组件，并通过属性来实现特殊性
+	function Dialog(props) {
+	  return _react2.default.createElement(
+	    FancyBorder,
+	    { color: 'blue' },
+	    _react2.default.createElement(
+	      'h1',
+	      { className: 'dialog-title' },
+	      props.title
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      { className: 'dialog-message' },
+	      props.message
+	    ),
+	    props.children
+	  );
+	}
+
+	function SpecialDialog() {
+	  return _react2.default.createElement(Dialog, { title: 'Hello Dialog',
+	    message: 'This is a special Dialog'
+	  });
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(SpecialDialog, null), document.getElementById('special-container'));
+
+	// 登录弹框
+
+	var SignUpDialog = function (_React$Component15) {
+	  _inherits(SignUpDialog, _React$Component15);
+
+	  function SignUpDialog(props) {
+	    _classCallCheck(this, SignUpDialog);
+
+	    var _this17 = _possibleConstructorReturn(this, (SignUpDialog.__proto__ || Object.getPrototypeOf(SignUpDialog)).call(this, props));
+
+	    _this17.state = {
+	      login: ''
+	    };
+
+	    _this17.handleChange = _this17.handleChange.bind(_this17);
+	    _this17.handleSignUp = _this17.handleSignUp.bind(_this17);
+	    return _this17;
+	  }
+
+	  _createClass(SignUpDialog, [{
+	    key: 'handleChange',
+	    value: function handleChange(event) {
+	      this.setState({ login: event.target.value });
+	    }
+	  }, {
+	    key: 'handleSignUp',
+	    value: function handleSignUp() {
+	      alert('Welcome ' + this.state.login + ' come back.');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        Dialog,
+	        { title: 'Sign Up',
+	          message: 'Don\'t have a account, register'
+	        },
+	        _react2.default.createElement('input', { type: 'text', value: this.state.login,
+	          onChange: this.handleChange }),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.handleSignUp },
+	          'Sign Me Up'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SignUpDialog;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(SignUpDialog, null), document.getElementById('sign-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {

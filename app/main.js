@@ -993,3 +993,143 @@ ReactDom.render(
   <Calculator />,
   document.getElementById('boiling-container')
 );
+
+// composition
+/**
+ * children 是一个特殊的属性，他会把 React 元素标签中的所有内容赋值给该属性
+ * */
+
+function FancyBorder(props){
+  return (
+    <div className={"FancyBorder FancyBorder-" + props.color}>
+      {props.children}
+    </div>
+  );
+}
+
+function WelcomeDialog(){
+  return (
+    <FancyBorder color="blue">
+      <h1 className="dialog-title">
+        Welcome
+      </h1>
+      <p className="dialog-message">
+        Thank you visiting out website.
+      </p>
+    </FancyBorder>
+  );
+}
+
+ReactDom.render(
+  <WelcomeDialog />,
+  document.getElementById('dialog-container')
+);
+
+// React 中的多个坑位就需要通过属性来实现了，由于 React Component 也是一个对象，所以我们可以像使用 js 对象那样通过组件的属性来传递 React 组件。
+
+function SplitPane(props){
+  return (
+    <div className="splitPane">
+      <div className="splitPane-left">
+        {props.left}
+      </div>
+      <div className="splitPane-right">
+        {props.right}
+      </div>
+    </div>
+  );
+}
+
+function Contacts(){
+  return (
+    <div>Left</div>
+  );
+}
+
+function Chat(){
+  return (
+    <div>Right</div>
+  );
+}
+
+function App(){
+  return (
+    <SplitPane
+      left={
+        <Contacts />
+      }
+      right={
+        <Chat />
+      }
+    />
+  );
+}
+
+ReactDom.render(
+  <App />,
+  document.getElementById('split-container')
+);
+
+// 如果某个组件是另外一个组件的特殊实例，我们可以在特殊实例中渲染通用组件，并通过属性来实现特殊性
+function Dialog(props){
+  return (
+    <FancyBorder color="blue">
+      <h1 className="dialog-title">{props.title}</h1>
+      <p className="dialog-message">{props.message}</p>
+      {props.children}
+    </FancyBorder>
+  );
+}
+
+function SpecialDialog(){
+  return (
+    <Dialog title="Hello Dialog"
+      message="This is a special Dialog"
+    />
+  );
+}
+
+ReactDom.render(
+  <SpecialDialog />,
+  document.getElementById('special-container')
+);
+
+// 登录弹框
+class SignUpDialog extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      login: ''
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+  }
+
+  handleChange(event){
+    this.setState(
+      {login: event.target.value}
+    );
+  }
+
+  handleSignUp(){
+    alert('Welcome ' + this.state.login + ' come back.');
+  }
+
+  render(){
+    return (
+      <Dialog title="Sign Up"
+        message="Don't have a account, register"
+      >
+        <input type="text" value={this.state.login}
+          onChange={this.handleChange} />
+        <button onClick={this.handleSignUp}>Sign Me Up</button>
+      </Dialog>
+    );
+  }
+}
+
+ReactDom.render(
+  <SignUpDialog />,
+  document.getElementById('sign-container')
+);
