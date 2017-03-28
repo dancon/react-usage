@@ -1133,3 +1133,147 @@ ReactDom.render(
   <SignUpDialog />,
   document.getElementById('sign-container')
 );
+
+// Think in React
+
+// 产品分类行
+class ProductCategoryRow extends React.Component{
+  render(){
+    return (
+      <tr><th cols="2">{this.props.category}</th></tr>
+    );
+  }
+}
+
+class ProductRow extends React.Component{
+  render(){
+    let name = this.props.product.stocked ?
+      this.props.product.name :
+      (<span style={{color: 'red'}}>{this.props.product.name}</span>)
+    return (
+      <tr>
+        <td>{name}</td>
+        <td>{this.props.product.price}</td>
+      </tr>
+    );
+  }
+}
+
+class ProductTable extends React.Component{
+  render(){
+    let rows = [],
+      lastCategory = null;
+
+    this.props.products.forEach(product => {
+      if(!~product.name.indexOf(this.props.filterText) || (!product.stocked && this.props.inStockOnly)){
+        return;
+      }
+
+      if(product.category != lastCategory){
+        rows.push(<ProductCategoryRow category={product.category} key={product.category} />);
+      }
+      rows.push(<ProductRow product={product} key={product.name} />);
+      lastCategory = product.category;
+    });
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    );
+  }
+}
+
+class SearchBar extends React.Component{
+  constructor(props){
+    super(props);
+    this.handleFilterTextInputChange = this.handleFilterTextInputChange.bind(this);
+    this.handleInStockOnlyInputChange = this.handleInStockOnlyInputChange.bind(this);
+  }
+
+  handleFilterTextInputChange(event){
+    this.props.onFilterTextInput(event.target.value);
+  }
+
+  handleInStockOnlyInputChange(event){
+    this.props.onInStockOnlyInput(event.target.checked);
+  }
+
+  render(){
+    console.log(this.props.inStockOnly);
+    return (
+      <form>
+        <input type="text" value={this.props.filterText} onChange={this.handleFilterTextInputChange} placeholder="Search..." />
+        <p>
+          <input type="checkbox" value={this.props.inStockOnly} onChange={this.handleInStockOnlyInputChange}/>
+          {' '}
+          only show product in stock
+        </p>
+      </form>
+    );
+  }
+}
+
+class FilterableProductTable extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      filterText: '',
+      inStockOnly: false
+    };
+
+    this.handleFilterTextInput = this.handleFilterTextInput.bind(this);
+    this.handleInStockOnlyInput = this.handleInStockOnlyInput.bind(this);
+  }
+
+  handleFilterTextInput(filterText){
+    this.setState({
+      filterText: filterText
+    });
+  }
+
+  handleInStockOnlyInput(inStockInput){
+    this.setState({
+      inStockOnly: inStockInput
+    });
+  }
+
+  render(){
+    return (
+      <div>
+        <SearchBar
+          filterText={this.state.filterText}
+          inStockOnly={this.state.inStockOnly}
+          onFilterTextInput={this.handleFilterTextInput}
+          onInStockOnlyInput={this.handleInStockOnlyInput}
+        />
+        <ProductTable products={this.props.products}
+          filterText={this.state.filterText}
+          inStockOnly={this.state.inStockOnly}
+        />
+      </div>
+    );
+  }
+}
+
+let PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+];
+
+ReactDom.render(
+  <FilterableProductTable products={PRODUCTS} />,
+  document.getElementById('product-container')
+);

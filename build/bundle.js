@@ -1508,6 +1508,240 @@
 
 	_reactDom2.default.render(_react2.default.createElement(SignUpDialog, null), document.getElementById('sign-container'));
 
+	// Think in React
+
+	// 产品分类行
+
+	var ProductCategoryRow = function (_React$Component16) {
+	  _inherits(ProductCategoryRow, _React$Component16);
+
+	  function ProductCategoryRow() {
+	    _classCallCheck(this, ProductCategoryRow);
+
+	    return _possibleConstructorReturn(this, (ProductCategoryRow.__proto__ || Object.getPrototypeOf(ProductCategoryRow)).apply(this, arguments));
+	  }
+
+	  _createClass(ProductCategoryRow, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'tr',
+	        null,
+	        _react2.default.createElement(
+	          'th',
+	          { cols: '2' },
+	          this.props.category
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ProductCategoryRow;
+	}(_react2.default.Component);
+
+	var ProductRow = function (_React$Component17) {
+	  _inherits(ProductRow, _React$Component17);
+
+	  function ProductRow() {
+	    _classCallCheck(this, ProductRow);
+
+	    return _possibleConstructorReturn(this, (ProductRow.__proto__ || Object.getPrototypeOf(ProductRow)).apply(this, arguments));
+	  }
+
+	  _createClass(ProductRow, [{
+	    key: 'render',
+	    value: function render() {
+	      var name = this.props.product.stocked ? this.props.product.name : _react2.default.createElement(
+	        'span',
+	        { style: { color: 'red' } },
+	        this.props.product.name
+	      );
+	      return _react2.default.createElement(
+	        'tr',
+	        null,
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          name
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          this.props.product.price
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ProductRow;
+	}(_react2.default.Component);
+
+	var ProductTable = function (_React$Component18) {
+	  _inherits(ProductTable, _React$Component18);
+
+	  function ProductTable() {
+	    _classCallCheck(this, ProductTable);
+
+	    return _possibleConstructorReturn(this, (ProductTable.__proto__ || Object.getPrototypeOf(ProductTable)).apply(this, arguments));
+	  }
+
+	  _createClass(ProductTable, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this21 = this;
+
+	      var rows = [],
+	          lastCategory = null;
+
+	      this.props.products.forEach(function (product) {
+	        if (!~product.name.indexOf(_this21.props.filterText) || !product.stocked && _this21.props.inStockOnly) {
+	          return;
+	        }
+
+	        if (product.category != lastCategory) {
+	          rows.push(_react2.default.createElement(ProductCategoryRow, { category: product.category, key: product.category }));
+	        }
+	        rows.push(_react2.default.createElement(ProductRow, { product: product, key: product.name }));
+	        lastCategory = product.category;
+	      });
+
+	      return _react2.default.createElement(
+	        'table',
+	        null,
+	        _react2.default.createElement(
+	          'thead',
+	          null,
+	          _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Name'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Price'
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tbody',
+	          null,
+	          rows
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ProductTable;
+	}(_react2.default.Component);
+
+	var SearchBar = function (_React$Component19) {
+	  _inherits(SearchBar, _React$Component19);
+
+	  function SearchBar(props) {
+	    _classCallCheck(this, SearchBar);
+
+	    var _this22 = _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
+
+	    _this22.handleFilterTextInputChange = _this22.handleFilterTextInputChange.bind(_this22);
+	    _this22.handleInStockOnlyInputChange = _this22.handleInStockOnlyInputChange.bind(_this22);
+	    return _this22;
+	  }
+
+	  _createClass(SearchBar, [{
+	    key: 'handleFilterTextInputChange',
+	    value: function handleFilterTextInputChange(event) {
+	      this.props.onFilterTextInput(event.target.value);
+	    }
+	  }, {
+	    key: 'handleInStockOnlyInputChange',
+	    value: function handleInStockOnlyInputChange(event) {
+	      this.props.onInStockOnlyInput(event.target.checked);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log(this.props.inStockOnly);
+	      return _react2.default.createElement(
+	        'form',
+	        null,
+	        _react2.default.createElement('input', { type: 'text', value: this.props.filterText, onChange: this.handleFilterTextInputChange, placeholder: 'Search...' }),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          _react2.default.createElement('input', { type: 'checkbox', value: this.props.inStockOnly, onChange: this.handleInStockOnlyInputChange }),
+	          ' ',
+	          'only show product in stock'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SearchBar;
+	}(_react2.default.Component);
+
+	var FilterableProductTable = function (_React$Component20) {
+	  _inherits(FilterableProductTable, _React$Component20);
+
+	  function FilterableProductTable(props) {
+	    _classCallCheck(this, FilterableProductTable);
+
+	    var _this23 = _possibleConstructorReturn(this, (FilterableProductTable.__proto__ || Object.getPrototypeOf(FilterableProductTable)).call(this, props));
+
+	    _this23.state = {
+	      filterText: '',
+	      inStockOnly: false
+	    };
+
+	    _this23.handleFilterTextInput = _this23.handleFilterTextInput.bind(_this23);
+	    _this23.handleInStockOnlyInput = _this23.handleInStockOnlyInput.bind(_this23);
+	    return _this23;
+	  }
+
+	  _createClass(FilterableProductTable, [{
+	    key: 'handleFilterTextInput',
+	    value: function handleFilterTextInput(filterText) {
+	      this.setState({
+	        filterText: filterText
+	      });
+	    }
+	  }, {
+	    key: 'handleInStockOnlyInput',
+	    value: function handleInStockOnlyInput(inStockInput) {
+	      this.setState({
+	        inStockOnly: inStockInput
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(SearchBar, {
+	          filterText: this.state.filterText,
+	          inStockOnly: this.state.inStockOnly,
+	          onFilterTextInput: this.handleFilterTextInput,
+	          onInStockOnlyInput: this.handleInStockOnlyInput
+	        }),
+	        _react2.default.createElement(ProductTable, { products: this.props.products,
+	          filterText: this.state.filterText,
+	          inStockOnly: this.state.inStockOnly
+	        })
+	      );
+	    }
+	  }]);
+
+	  return FilterableProductTable;
+	}(_react2.default.Component);
+
+	var PRODUCTS = [{ category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' }, { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' }, { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' }, { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' }, { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' }, { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }];
+
+	_reactDom2.default.render(_react2.default.createElement(FilterableProductTable, { products: PRODUCTS }), document.getElementById('product-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
