@@ -264,3 +264,177 @@ React 的这种行为并不是非常的主要，出于文档完整性要求，�
 
 # Children in JSX
 
+在 JSX 表达式中，包含在开标签与闭标签中的内容会被存储在一个特殊的属性 `props.children` 中，React 有几种不同的方式来传递子元素。
+
+### String Literals
+
+我们可以直接在开闭标签间传递字符串，这时 `props.children` 的值就是字符串。例如：
+
+```
+  <MyComponent>Hello World!</MyComponent>
+```
+
+这是一个合法的 JSX，而且 MyComponent 中 `props.children` 的值就是简单的字符串 `Hello World!`. HTML 代码将不会被编码，所以我们可以像编写 HTML 代码一样来编写 JSX。
+
+```
+  <div>This is valid HTML &amp; JSX at the same time.</div>
+```
+
+JSX 将会移除行首尾的空格，也会移除开始/结束标签相邻的空行，字符串中间的空行将会被替换为一个空格， 所以以下代码将会渲染出相同的内容：
+
+```
+  <div>Hello World</div>
+  
+  <div>
+    Hello World
+  </div>
+  
+  <div>
+    Hello
+    World
+  </div>
+  
+  <div>
+  
+    Hello World
+  </div>
+```
+
+### JSX Children
+
+我们也可以提供更多的 JSX 元素作为子元素，对于嵌套组件是非常有用的。
+
+```
+  <MyContainer>
+    <MyFirstComponent />
+    <MySecondComponent />
+  </MyContainer>
+```
+
+我们也可以混合使用其他类型的元素来作为组件的子元素，所以你可以同时使用字符串字面量和其他组件（内置/自定义），这也是 JSX 和 HTML 类似的另一方面，所以，以下代码在 JSX 和 HTML 都是合法的：
+
+```
+  <div>
+    Here is a list:
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+    </ul>
+  </div>
+```
+
+一个 React 组件不能返回多个 React 元素，但是一个 JSX 表达式可以包含多个子元素，所以如果你打算通过一个组件渲染多个内容，我们需要把带渲染的内容包含在一个 `div` 标签中。
+
+### JavaScript Expressions
+
+我们可以给 JSX 表达式传递任意一个合法的 JS 的表达式作为子元素，只要把表达式包含在 `{}` 中就可以了，所以以下表达式是等价的：
+
+```
+  <MyComponent>foo</MyComponent>
+  
+  <MyComponent>{'foo'}</MyComponent>
+```
+
+JSX 表达式中支持 JS 表达式对于渲染 JSX 元素列表是非常有用的。
+
+```
+  function Item(props) {
+    return <li>{props.message}</li>;
+  }
+  
+  function TodoList() {
+    const todos = ['finish doc', 'submit pr', 'nag dan to review'];
+    return (
+      <ul>
+        {todos.map((message) => <Item key={message} message={message} />)}
+      </ul>
+    );
+  }
+```
+
+JS 表达式可以和其他类型的元素混合使用。
+
+```
+  function Hello(props) {
+    return <div>Hello {props.addressee}!</div>;
+  }
+```
+
+### Functions as Children
+
+通常，插入 JSX 表达式中的 JS 表达式会被计算为字符串，React 元素或者是这些结果的列表，`props.children` 可以接受各种类型的数据，不仅仅是 React 知道如何渲染的数据，`props.children` 还可以接受一个函数作为回调。
+
+```
+  function Repeat(props) {
+    let items = [];
+    for (let i = 0; i < props.numTimes; i++) {
+      items.push(props.children(i));
+    }
+    return <div>{items}</div>;
+  }
+  
+  function ListOfTenThings() {
+    return (
+      <Repeat numTimes={10}>
+        {(index) => <div key={index}>This is item {index} in the list</div>}
+      </Repeat>
+    );
+  }
+```
+
+通过 `props.children` 可以传递任意元素作为自定义组件的子元素，只能 React 在渲染前能转换为 React 识别的类型就可以了。这种用法并不是通用的，但是如果你想扩展 React 的能力，这种用法是非常有用的。
+
+### Booleans, Null, and Undefined Are Ignored
+
+`false` `null` `undefined` 和 `true` 都是合法的子元素，但是 React 会忽略这些表达式。以下表达式渲染的结果是相同的：
+
+```
+  <div />
+  
+  <div></div>
+  
+  <div>{false}</div>
+  
+  <div>{null}</div>
+  
+  <div>{undefined}</div>
+  
+  <div>{true}</div>
+```
+
+在通过条件判断渲染 React 元素是非常有用的，如下代码，只有 `showHeader` 值为 `true` 时才会渲染 `<Header />`
+
+```
+  <div>
+    {showHeader && <Header />}
+    <Content />
+  </div>
+```
+
+需要注意的是，一些js能隐式转化为假值的值，在 JSX 也会被渲染，比如 0 ，如下代码将不会像预期那样在 `props.message.length` 为 `0` 时不做任何渲染，而且会打印出一个 0.
+
+```
+  <div>
+    {props.messages.length &&
+      <MessageList messages={props.messages} />
+    }
+  </div>
+```
+
+进入如下修改可以达到预期，我们必须确定 `&&` 前面的操作数时布尔类型
+
+```
+  <div>
+    {props.messages.length > 0 &&
+      <MessageList messages={props.messages} />
+    }
+  </div>
+```
+
+相反，如果我们确实想渲染出 `true` `false` `null` `undefinded`, 那么我们必须把这些值转换为字符串。
+
+```
+  <div>
+    My JavaScript variable is {String(myVariable)}.
+  </div>
+```
