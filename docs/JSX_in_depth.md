@@ -185,3 +185,82 @@ React 建议使用首字母大写的标识来定义组件，如果你确实有�
 
 在 JSX 中有几种不同的方式来指定属性。
 
+### JavaScript Expressions
+
+我们可以传递一个 Javascript 表达式作为 Component 属性的值，但是我们需要把表达式包括在 `{}` 中。比如，在 JSX 中：
+
+```
+  <MyComponent foo={1 + 2 + 3 +4} />
+```
+
+对于 `MyComponent`, `props.foo` 的值为 `10`， 因为表达式 `1 + 2 + 3 + 4` 的值就是 `10`.
+
+由于 `if` 语句和 `for` 循环不是 JS 表达式，所以不能在 JSX 中直接使用，但是我们可以在这些逻辑语句中使用 JSX. 如下：
+
+```
+  function NumberDescriber(props){
+    let description;
+    if(props.number % 2 == 0){
+      description = <strong>even</strong>
+    }else{
+      description = <i>odd</i>
+    }
+    
+    return <div>{props.number} is an {description} number.</div>
+  }
+```
+
+### String Literals
+
+我们也可以传递一个 Sting 字面量作为 Component 的属性。以下两个 JSX 表达式是等价的：
+
+```
+    <MyComponent message="hello world" />
+    
+    <MyComponent message={'hello world'} />
+```
+
+当我们传递一个 String 字面量的时候，React 会进行 HTML 转义，所以以下两个 JSX 表达式是等价的：
+
+```
+  <MyComponent message="&lt;3" />
+  
+  <MyComponent message=">3" />
+```
+
+React 的这种行为并不是非常的主要，出于文档完整性要求，仅仅在这里提及一下。
+
+### Props Default to "True"
+
+如果你没有给属性指定任何值，默认值为 `true`, 以下两个表达式是等价的：
+
+```
+  <MyTextBox autocomplete />
+  
+  <MyTextBox autocomplete={true} />
+```
+
+通常情况，React 不推荐使用这是默认值的方式，因为这容易和 `ES6 Object` 的简写方式冲突，在 ES6 中 `{foo}` 是 `{foo: foo}` 的简写，而不是 `{foo: true}` 的简写。React 支持这种行为仅仅是为了与 HTML 中的属性行为对齐。
+  
+### Spread Attributes
+
+如果你已经有了一个属性集合的对象，而且你又想直接把它传递到 JSX 中，那么你可以使用 `...` 作为分解运算符来传递整个对象。以下两个组件是等价的：
+
+```
+  function App1(){
+    return  <Greeting firstName="Ben" lastName="Hector" />
+  }
+  
+  function App2(){
+    const props = {
+      firstName: 'Ben',
+      lastName: 'Hector'
+    };
+    return <Greeting {...props}>
+  }
+```
+
+通过这种方式指定属性的方式对于创建一种通用容器是非常有用的，但是这种方式可能会让你的代码变的一团糟，因为这种方式会传递一些容器不相关的属性到容器内部，所以使用这种方式前，一定要考虑清楚。
+
+# Children in JSX
+

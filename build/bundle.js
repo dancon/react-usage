@@ -1742,6 +1742,37 @@
 
 	_reactDom2.default.render(_react2.default.createElement(FilterableProductTable, { products: PRODUCTS }), document.getElementById('product-container'));
 
+	function Repeat(props) {
+	  var items = [];
+	  for (var i = 0; i < props.numTimes; i++) {
+	    items.push(props.children(i));
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    items
+	  );
+	}
+
+	function ListOfTenThings() {
+	  return _react2.default.createElement(
+	    Repeat,
+	    { numTimes: 10 },
+	    function (index) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: index },
+	        'This is item ',
+	        index,
+	        ' in the list'
+	      );
+	    }
+	  );
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(ListOfTenThings, null), document.getElementById('repeat-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {

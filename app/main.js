@@ -1277,3 +1277,26 @@ ReactDom.render(
   <FilterableProductTable products={PRODUCTS} />,
   document.getElementById('product-container')
 );
+
+// props.children 可以是函数
+function Repeat(props){
+  let items = [];
+  for(let i = 0 ; i < props.numTimes; i ++){
+    items.push(props.children(i));
+  }
+
+  return (<div>{items}</div>);
+}
+
+function ListOfTenThings(){
+  return (
+    <Repeat numTimes={10}>
+      {(index) => <div key={index}>This is item {index} in the list</div>}
+    </Repeat>
+  );
+}
+
+ReactDom.render(
+  <ListOfTenThings />,
+  document.getElementById('repeat-container')
+);
