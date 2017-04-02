@@ -151,27 +151,27 @@ ReactDom.render(<CommentP
 // 抽取
 
 // 用户头像
-function Avatar(props){
+function Avatar(props) {
   return (
     <img src={props.user.avatar} alt={props.user.name} className="avatar"/>
   );
 }
 
 // 用户信息
-function UserInfo(props){
+function UserInfo(props) {
   return (
     <div className="userInfo">
-      <Avatar user={props.user} />
+      <Avatar user={props.user}/>
       <div className="userInfo-name">{props.user.name}</div>
     </div>
   );
 }
 
 // 评论
-function Comment(props){
+function Comment(props) {
   return (
     <div className="comment">
-      <UserInfo user={props.user} />
+      <UserInfo user={props.user}/>
       <div className="comment-text">{props.text}</div>
       <div className="comment-date">{props.date}</div>
     </div>
@@ -185,48 +185,50 @@ ReactDom.render(
 
 // 组件的状态
 /*
-function Clock(props){
-  return (
-    <div>
-      <h1>Hello, world!</h1>
-      <h2>It is {props.date.toLocaleString()}</h2>
-    </div>
-  );
-}
+ function Clock(props){
+ return (
+ <div>
+ <h1>Hello, world!</h1>
+ <h2>It is {props.date.toLocaleString()}</h2>
+ </div>
+ );
+ }
 
-function tick(){
-  ReactDom.render(
-    <Clock date={new Date} />,
-    document.getElementById('clock-container')
-  );
-}
+ function tick(){
+ ReactDom.render(
+ <Clock date={new Date} />,
+ document.getElementById('clock-container')
+ );
+ }
 
-setInterval(tick, 1000);*/
+ setInterval(tick, 1000);*/
 
-class Clock extends React.Component{
-  constructor(props){
+class Clock extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {date: new Date};
   }
 
   // 声明周期方法：
-  componentDidMount(){
+  componentDidMount() {
     this.timeId = this.tick();
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearTimeout(this.timeId);
   }
 
-  tick(){
+  tick() {
     this.setState({
       date: new Date()
     });
 
-    return setTimeout(() => {this.tick();}, 1000);
+    return setTimeout(() => {
+      this.tick();
+    }, 1000);
   }
 
-  render(){
+  render() {
     return (
       <div>
         <h1>Hello, World!</h1>
@@ -241,8 +243,8 @@ ReactDom.render(
   document.getElementById('clock-container')
 );
 
-class AppX extends React.Component{
-  render(){
+class AppX extends React.Component {
+  render() {
     return (
       <div>
         <Clock />
@@ -259,13 +261,13 @@ ReactDom.render(
 );
 
 // 绑定事件
-class ActionLink extends React.Component{
-  handlClick(event){
+class ActionLink extends React.Component {
+  handlClick(event) {
     event.preventDefault();
     console.log('React the link is clicked');
   }
-  
-  render(){
+
+  render() {
     return (
       <a onClick={this.handlClick} href="http://www.baidu.com">React 百度一下</a>
     );
@@ -277,8 +279,8 @@ ReactDom.render(
   document.getElementById('link-container')
 );
 
-class Toggle extends React.Component{
-  constructor(props){
+class Toggle extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       isToggleOn: true
@@ -287,13 +289,13 @@ class Toggle extends React.Component{
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(){
+  handleClick() {
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
     }));
   }
 
-  render(){
+  render() {
     return (
       <button onClick={this.handleClick}>
         {this.state.isToggleOn ? 'ON' : 'OFF'}
@@ -307,18 +309,20 @@ ReactDom.render(
   document.getElementById('toggle-container')
 );
 
-class LogginButton extends React.Component{
+class LogginButton extends React.Component {
   /*handleClick = () => {
-    console.log('this is:', this);
-  }*/
+   console.log('this is:', this);
+   }*/
 
-  handleClick(){
+  handleClick() {
     console.log('this is:', this);
   }
 
-  render(){
+  render() {
     return (
-      <button onClick={event => {this.handleClick(event)}}>
+      <button onClick={event => {
+        this.handleClick(event)
+      }}>
         Click me
       </button>
     );
@@ -332,22 +336,22 @@ ReactDom.render(
 
 // React 条件
 
-function UserGreeting(){
+function UserGreeting() {
   return (
     <h2>Welcome back!</h2>
   );
 }
 
-function GuestGreeting(){
+function GuestGreeting() {
   return (
     <h2>please sign up.</h2>
   );
 }
 
-function Greeting(props){
+function Greeting(props) {
   const isLoggedIn = props.isLoggedIn;
 
-  if(isLoggedIn){
+  if (isLoggedIn) {
     return <UserGreeting />;
   }
 
@@ -355,11 +359,11 @@ function Greeting(props){
 }
 
 ReactDom.render(
-  <Greeting isLoggedIn={true} />,
+  <Greeting isLoggedIn={true}/>,
   document.getElementById('greeting-container')
 );
 
-function LoginButton(props){
+function LoginButton(props) {
   return (
     <button onClick={props.onClick}>
       Login
@@ -367,7 +371,7 @@ function LoginButton(props){
   );
 }
 
-function LogoutButton(props){
+function LogoutButton(props) {
   return (
     <button onClick={props.onClick}>
       Logout
@@ -375,8 +379,8 @@ function LogoutButton(props){
   )
 }
 
-class LoginControl extends React.Component{
-  constructor(props){
+class LoginControl extends React.Component {
+  constructor(props) {
     super(props);
 
     this.handleLoginClick = this.handleLoginClick.bind(this);
@@ -387,33 +391,33 @@ class LoginControl extends React.Component{
     }
   }
 
-  handleLoginClick(){
+  handleLoginClick() {
     this.setState({
       isLoggedIn: true
     });
   }
 
-  handleLogoutClick(){
+  handleLogoutClick() {
     this.setState({
       isLoggedIn: false
     });
   }
 
-  render(){
+  render() {
     const isLoggedIn = this.state.isLoggedIn;
 
     let button = null;
 
-    if(isLoggedIn){
-      button = <LogoutButton onClick={this.handleLogoutClick} />
-    }else{
-      button = <LoginButton onClick={this.handleLoginClick} />
+    if (isLoggedIn) {
+      button = <LogoutButton onClick={this.handleLogoutClick}/>
+    } else {
+      button = <LoginButton onClick={this.handleLoginClick}/>
     }
 
     return (
       <div>
-        <Greeting isLoggedIn={isLoggedIn} />
-        <div>The user is <b>{isLoggedIn ? 'currently': 'not'}</b> logged in.</div>
+        <Greeting isLoggedIn={isLoggedIn}/>
+        <div>The user is <b>{isLoggedIn ? 'currently' : 'not'}</b> logged in.</div>
         {button}
       </div>
     );
@@ -427,14 +431,14 @@ ReactDom.render(
 
 // 逻辑运算符 &&
 
-function Mailbox(props){
+function Mailbox(props) {
   const unreadMessages = props.unreadMessages;
 
   return (
     <div>
       <h1>Hello</h1>
       {unreadMessages.length > 0 &&
-        <h2>You have {unreadMessages.length} unread messages.</h2>
+      <h2>You have {unreadMessages.length} unread messages.</h2>
       }
     </div>
   );
@@ -442,48 +446,48 @@ function Mailbox(props){
 
 const unreadMessages = ['React', 'Re:React', 'Re:Re:React'];
 ReactDom.render(
-  <Mailbox unreadMessages={unreadMessages} />,
+  <Mailbox unreadMessages={unreadMessages}/>,
   document.getElementById('mailbox-container')
 );
 
 // 如果要隐藏元素本身，返回 null 即可
 
 /*function WarningBanner(props){
-  if(!props.warn){
-    return null;
-  }
+ if(!props.warn){
+ return null;
+ }
 
-  return (
-    <div>
-      warning~
-    </div>
-  );
-}*/
+ return (
+ <div>
+ warning~
+ </div>
+ );
+ }*/
 
 // 即使 component render 方法返回 null , 也不会影响声明周期方法的触发
-class WarningBanner extends React.Component{
-  constructor(props){
+class WarningBanner extends React.Component {
+  constructor(props) {
     super(props);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('Waring Component mounted');
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     console.log('Warning Component will unmount');
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     console.log('Warning Component did update');
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
     console.log('Warning Component will update');
   }
 
-  render(){
-    if(!this.props.warn){
+  render() {
+    if (!this.props.warn) {
       return null;
     }
     return (
@@ -492,8 +496,8 @@ class WarningBanner extends React.Component{
   }
 }
 
-class Page extends React.Component{
-  constructor(props){
+class Page extends React.Component {
+  constructor(props) {
     super(props);
     this.handleToggleClick = this.handleToggleClick.bind(this);
 
@@ -502,16 +506,16 @@ class Page extends React.Component{
     };
   }
 
-  handleToggleClick(){
+  handleToggleClick() {
     this.setState(prevState => ({
       showWarning: !prevState.showWarning
     }));
   }
 
-  render(){
+  render() {
     return (
       <div>
-        <WarningBanner warn={this.state.showWarning} />
+        <WarningBanner warn={this.state.showWarning}/>
         <button onClick={this.handleToggleClick}>
           {this.state.showWarning ? 'Hide' : 'Show'}
         </button>
@@ -528,19 +532,19 @@ ReactDom.render(
 // Lists and Keys
 
 /*
-const numbers = [1, 2, 3, 4, 5];
-const listItems = numbers.map((number) => {
-    return (<li>{number}</li>)
-  }
-);
+ const numbers = [1, 2, 3, 4, 5];
+ const listItems = numbers.map((number) => {
+ return (<li>{number}</li>)
+ }
+ );
 
-ReactDom.render(
-  <ul>{listItems}</ul>,
-  document.getElementById('list-container')
-);
-*/
+ ReactDom.render(
+ <ul>{listItems}</ul>,
+ document.getElementById('list-container')
+ );
+ */
 
-function NumberList(props){
+function NumberList(props) {
   const numbers = props.numbers;
   const listItems = numbers.map(number => {
     return (<li key={number.toString()}>{number}</li>);
@@ -553,7 +557,7 @@ function NumberList(props){
 
 const numbers = [1, 2, 3, 4, 5];
 ReactDom.render(
-  <NumberList numbers={numbers} />,
+  <NumberList numbers={numbers}/>,
   document.getElementById('list-container')
 );
 
@@ -561,7 +565,7 @@ ReactDom.render(
  * React 中 key 是在遍历总用来唯一标识每一项的，最好是使用 遍历对象的唯一 id 来作为 key, 如果没有，使用项的索引也是可以的，但是在数组会重排的情况下，索引是不推荐作为 key 的。
  * */
 
-function ListItem(props){
+function ListItem(props) {
   const value = props.value;
   return (
     <li key={value.toString()}>
@@ -577,7 +581,7 @@ function ListItem(props){
 function NumberListX(props) {
   const numbers = props.number;
   const items = numbers.map(number => (
-    <ListItem value={number} />
+    <ListItem value={number}/>
   ));
 
   return (
@@ -588,22 +592,22 @@ function NumberListX(props) {
 }
 
 /*ReactDom.render(
-  <NumberListX number={numbers} />,
-  document.getElementById('listx-container')
-);*/
+ <NumberListX number={numbers} />,
+ document.getElementById('listx-container')
+ );*/
 
 // 修改版
-function ListItemX(props){
+function ListItemX(props) {
   const value = props.value;
   return (
     <li>{value}</li>
   );
 }
 
-function NumberListxx(props){
+function NumberListxx(props) {
   const numbers = props.number;
   const items = numbers.map(number => (
-    <ListItemX key={number} value={number} />
+    <ListItemX key={number} value={number}/>
   ));
 
   return (
@@ -614,7 +618,7 @@ function NumberListxx(props){
 }
 
 ReactDom.render(
-  <NumberListxx number={numbers} />,
+  <NumberListxx number={numbers}/>,
   document.getElementById('listx-container')
 );
 
@@ -622,18 +626,18 @@ ReactDom.render(
  * key 在某次遍历中必须是唯一的，但是全局中并不需要唯一，可以在两次遍历中使用相同的 key 值
  * */
 
-function Post(props){
+function Post(props) {
   const posts = props.posts,
     // 我们可以把这次遍历直接 inline 到 JSX 中，不用单独声明一个变量来存储
     /*siderBar = (
-      <ul>
-        {
-          posts.map(post => (
-            <li key={post.id}>{props.id && post.id}{post.title}</li>
-          ))
-        }
-      </ul>
-    ),*/
+     <ul>
+     {
+     posts.map(post => (
+     <li key={post.id}>{props.id && post.id}{post.title}</li>
+     ))
+     }
+     </ul>
+     ),*/
     content = (
       <ul>
         {
@@ -670,7 +674,7 @@ const posts = [
 ];
 
 ReactDom.render(
-  <Post posts={posts} />,
+  <Post posts={posts}/>,
   document.getElementById('post-container')
 );
 
@@ -687,8 +691,8 @@ const content = posts.map(post => (
  * React 中的 form 表单如果想实现提交时通过一个函数来处理，而不是默认的提交到一个新页面，那么我们可以通过 Controlled Component 来实现，也就是说 input 等 form element 的值由 React 来维护，也方便统一做校验，修改等
  * */
 
-class NameForm extends React.Component{
-  constructor(props){
+class NameForm extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       value: ''
@@ -700,25 +704,25 @@ class NameForm extends React.Component{
     });
   }
 
-  handleChange(event){
+  handleChange(event) {
     this.setState({
       value: event.target.value.toUpperCase()
     });
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
     alert('A name is submitted:' + this.state.value);
   }
 
-  render(){
+  render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
           Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={this.state.value} onChange={this.handleChange}/>
         </label>
-        <input type="submit" value='Submit' />
+        <input type="submit" value='Submit'/>
       </form>
     );
   }
@@ -731,37 +735,37 @@ ReactDom.render(
 
 // React 中的 textarea
 
-class EssayForm extends React.Component{
-  constructor(props){
+class EssayForm extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       value: 'Please write a essay about you favorite form element.'
     }
-    const handler = ['handleChange','handleSubmit'];
+    const handler = ['handleChange', 'handleSubmit'];
     handler.forEach(method => {
       this[method] = this[method].bind(this);
     })
   }
 
-  handleChange(event){
+  handleChange(event) {
     this.setState({
       value: event.target.value
     });
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
     alert('A essay is submitted:' + this.state.value);
   }
 
-  render(){
+  render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
           Essay:
           <textarea value={this.state.value} onChange={this.handleChange}></textarea>
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit"/>
       </form>
     );
   }
@@ -774,30 +778,30 @@ ReactDom.render(
 
 // React select form element
 
-class FlavorForm extends React.Component{
-  constructor(props){
+class FlavorForm extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       value: 'coconut'
     }
-    const handler = ['handleChange','handleSubmit'];
+    const handler = ['handleChange', 'handleSubmit'];
     handler.forEach(method => {
       this[method] = this[method].bind(this);
     })
   }
 
-  handleChange(event){
+  handleChange(event) {
     this.setState({
       value: event.target.value
     });
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
     alert('A favorite flavor is submitted:' + this.state.value);
   }
 
-  render(){
+  render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
@@ -808,7 +812,7 @@ class FlavorForm extends React.Component{
             <option value="coconut">Coconut</option>
           </select>
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit"/>
       </form>
     );
   }
@@ -820,8 +824,8 @@ ReactDom.render(
 );
 
 // Multiple inputs
-class Reservation extends React.Component{
-  constructor(props){
+class Reservation extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       isGoing: true,
@@ -831,7 +835,7 @@ class Reservation extends React.Component{
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange(event){
+  handleInputChange(event) {
     const target = event.target,
       name = target.name,
       value = target.type == 'checkbox' ? target.checked : target.value;
@@ -841,18 +845,18 @@ class Reservation extends React.Component{
     });
   }
 
-  render(){
+  render() {
     let output = null;
-    if(this.state.isGoing){
+    if (this.state.isGoing) {
       output = <output>将有{this.state.numberOfGuest}人出席</output>
-    }else{
+    } else {
       output = <output>没有人出席。</output>
     }
     return (
       <div>
         <label>
           是否出席：
-          <input type="checkbox" checked={this.state.isGoing} onChange={this.handleInputChange} name="isGoing" />
+          <input type="checkbox" checked={this.state.isGoing} onChange={this.handleInputChange} name="isGoing"/>
         </label>
         <label>
           出席人数：
@@ -870,8 +874,8 @@ ReactDom.render(
 );
 
 // 状态提升
-function BoilingVerdict(props){
-  if(props.celsius >= 100){
+function BoilingVerdict(props) {
+  if (props.celsius >= 100) {
     return (<p>The water would boil.</p>);
   }
 
@@ -883,43 +887,43 @@ const scaleName = {
   f: 'Fahrenheit'
 };
 
-class TemperatureInput extends React.Component{
-  constructor(props){
+class TemperatureInput extends React.Component {
+  constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event){
+  handleChange(event) {
     this.props.onTemperatureChange(event.target.value);
   }
 
-  render(){
+  render() {
     const temperature = this.props.temperature,
       scale = this.props.scale;
 
     return (
       <fieldset>
         <legend>Please Enter temperature in {scaleName[scale]}</legend>
-        <input type="text" value={temperature} onChange={this.handleChange} />
+        <input type="text" value={temperature} onChange={this.handleChange}/>
       </fieldset>
     );
   }
 }
 
 // fahrenheit to celsius
-function toCelsius(fahrenheit){
+function toCelsius(fahrenheit) {
   return (fahrenheit - 32) * 5 / 9;
 }
 
 // celsius to fahrenheit
-function toFahrenheit(celsius){
+function toFahrenheit(celsius) {
   return (celsius * 9 / 5) + 32;
 }
 
 // convert to string
-function tryConvert(temperature, convert){
+function tryConvert(temperature, convert) {
   const input = parseFloat(temperature);
-  if(Number.isNaN(input)){
+  if (Number.isNaN(input)) {
     return '';
   }
 
@@ -929,15 +933,15 @@ function tryConvert(temperature, convert){
   return rounded + '';
 }
 
-class Calculator extends React.Component{
-  constructor(props){
+class Calculator extends React.Component {
+  constructor(props) {
     super(props);
     /*
-    this.state = {
-      temperature: ''
-    }
+     this.state = {
+     temperature: ''
+     }
 
-    this.handleChange = this.handleChange.bind(this);*/
+     this.handleChange = this.handleChange.bind(this);*/
     this.state = {
       scale: 'c',
       temperature: ''
@@ -946,33 +950,33 @@ class Calculator extends React.Component{
     this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
   }
 
-  handleCelsiusChange(temperature){
+  handleCelsiusChange(temperature) {
     this.setState(
       {scale: 'c', temperature}
     );
   }
 
-  handleFahrenheitChange(temperature){
+  handleFahrenheitChange(temperature) {
     this.setState(
       {scale: 'f', temperature}
     );
   }
 
   /*handleChange(event){
-    this.setState({
-      temperature: event.target.value
-    });
-  }*/
+   this.setState({
+   temperature: event.target.value
+   });
+   }*/
 
-  render(){
+  render() {
     /*const temperature = this.state.temperature;
-    return (
-      <fieldset>
-        <legend>Enter temperature in Celsius:</legend>
-        <input type="text" onChange={this.handleChange} value={this.state.temperature} />
-        <BoilingVerdict celsius={parseFloat(temperature)}/>
-      </fieldset>
-    );*/
+     return (
+     <fieldset>
+     <legend>Enter temperature in Celsius:</legend>
+     <input type="text" onChange={this.handleChange} value={this.state.temperature} />
+     <BoilingVerdict celsius={parseFloat(temperature)}/>
+     </fieldset>
+     );*/
 
     const scale = this.state.scale,
       temperature = this.state.temperature,
@@ -999,7 +1003,7 @@ ReactDom.render(
  * children 是一个特殊的属性，他会把 React 元素标签中的所有内容赋值给该属性
  * */
 
-function FancyBorder(props){
+function FancyBorder(props) {
   return (
     <div className={"FancyBorder FancyBorder-" + props.color}>
       {props.children}
@@ -1007,7 +1011,7 @@ function FancyBorder(props){
   );
 }
 
-function WelcomeDialog(){
+function WelcomeDialog() {
   return (
     <FancyBorder color="blue">
       <h1 className="dialog-title">
@@ -1027,7 +1031,7 @@ ReactDom.render(
 
 // React 中的多个坑位就需要通过属性来实现了，由于 React Component 也是一个对象，所以我们可以像使用 js 对象那样通过组件的属性来传递 React 组件。
 
-function SplitPane(props){
+function SplitPane(props) {
   return (
     <div className="splitPane">
       <div className="splitPane-left">
@@ -1040,19 +1044,19 @@ function SplitPane(props){
   );
 }
 
-function Contacts(){
+function Contacts() {
   return (
     <div>Left</div>
   );
 }
 
-function Chat(){
+function Chat() {
   return (
     <div>Right</div>
   );
 }
 
-function App(){
+function App() {
   return (
     <SplitPane
       left={
@@ -1071,7 +1075,7 @@ ReactDom.render(
 );
 
 // 如果某个组件是另外一个组件的特殊实例，我们可以在特殊实例中渲染通用组件，并通过属性来实现特殊性
-function Dialog(props){
+function Dialog(props) {
   return (
     <FancyBorder color="blue">
       <h1 className="dialog-title">{props.title}</h1>
@@ -1081,10 +1085,23 @@ function Dialog(props){
   );
 }
 
-function SpecialDialog(){
+Dialog.defaultProps = {
+  title: 'This is a default title',
+  message: 'this is a default message'
+};
+
+Dialog.propTypes = {
+  title: React.PropTypes.string,
+  message: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ])
+};
+
+function SpecialDialog() {
   return (
     <Dialog title="Hello Dialog"
-      message="This is a special Dialog"
+            message="This is a special Dialog"
     />
   );
 }
@@ -1095,8 +1112,8 @@ ReactDom.render(
 );
 
 // 登录弹框
-class SignUpDialog extends React.Component{
-  constructor(props){
+class SignUpDialog extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       login: ''
@@ -1106,23 +1123,22 @@ class SignUpDialog extends React.Component{
     this.handleSignUp = this.handleSignUp.bind(this);
   }
 
-  handleChange(event){
+  handleChange(event) {
     this.setState(
       {login: event.target.value}
     );
   }
 
-  handleSignUp(){
+  handleSignUp() {
     alert('Welcome ' + this.state.login + ' come back.');
   }
 
-  render(){
+  render() {
     return (
-      <Dialog title="Sign Up"
-        message="Don't have a account, register"
+      <Dialog message="Don't have a account, register"
       >
         <input type="text" value={this.state.login}
-          onChange={this.handleChange} />
+               onChange={this.handleChange}/>
         <button onClick={this.handleSignUp}>Sign Me Up</button>
       </Dialog>
     );
@@ -1137,16 +1153,18 @@ ReactDom.render(
 // Think in React
 
 // 产品分类行
-class ProductCategoryRow extends React.Component{
-  render(){
+class ProductCategoryRow extends React.Component {
+  render() {
     return (
-      <tr><th cols="2">{this.props.category}</th></tr>
+      <tr>
+        <th cols="2">{this.props.category}</th>
+      </tr>
     );
   }
 }
 
-class ProductRow extends React.Component{
-  render(){
+class ProductRow extends React.Component {
+  render() {
     let name = this.props.product.stocked ?
       this.props.product.name :
       (<span style={{color: 'red'}}>{this.props.product.name}</span>)
@@ -1159,59 +1177,60 @@ class ProductRow extends React.Component{
   }
 }
 
-class ProductTable extends React.Component{
-  render(){
+class ProductTable extends React.Component {
+  render() {
     let rows = [],
       lastCategory = null;
 
     this.props.products.forEach(product => {
-      if(!~product.name.indexOf(this.props.filterText) || (!product.stocked && this.props.inStockOnly)){
+      if (!~product.name.indexOf(this.props.filterText) || (!product.stocked && this.props.inStockOnly)) {
         return;
       }
 
-      if(product.category != lastCategory){
-        rows.push(<ProductCategoryRow category={product.category} key={product.category} />);
+      if (product.category != lastCategory) {
+        rows.push(<ProductCategoryRow category={product.category} key={product.category}/>);
       }
-      rows.push(<ProductRow product={product} key={product.name} />);
+      rows.push(<ProductRow product={product} key={product.name}/>);
       lastCategory = product.category;
     });
 
     return (
       <table>
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-          </tr>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+        </tr>
         </thead>
         <tbody>
-          {rows}
+        {rows}
         </tbody>
       </table>
     );
   }
 }
 
-class SearchBar extends React.Component{
-  constructor(props){
+class SearchBar extends React.Component {
+  constructor(props) {
     super(props);
     this.handleFilterTextInputChange = this.handleFilterTextInputChange.bind(this);
     this.handleInStockOnlyInputChange = this.handleInStockOnlyInputChange.bind(this);
   }
 
-  handleFilterTextInputChange(event){
+  handleFilterTextInputChange(event) {
     this.props.onFilterTextInput(event.target.value);
   }
 
-  handleInStockOnlyInputChange(event){
+  handleInStockOnlyInputChange(event) {
     this.props.onInStockOnlyInput(event.target.checked);
   }
 
-  render(){
+  render() {
     console.log(this.props.inStockOnly);
     return (
       <form>
-        <input type="text" value={this.props.filterText} onChange={this.handleFilterTextInputChange} placeholder="Search..." />
+        <input type="text" value={this.props.filterText} onChange={this.handleFilterTextInputChange}
+               placeholder="Search..."/>
         <p>
           <input type="checkbox" value={this.props.inStockOnly} onChange={this.handleInStockOnlyInputChange}/>
           {' '}
@@ -1222,8 +1241,8 @@ class SearchBar extends React.Component{
   }
 }
 
-class FilterableProductTable extends React.Component{
-  constructor(props){
+class FilterableProductTable extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       filterText: '',
@@ -1234,19 +1253,19 @@ class FilterableProductTable extends React.Component{
     this.handleInStockOnlyInput = this.handleInStockOnlyInput.bind(this);
   }
 
-  handleFilterTextInput(filterText){
+  handleFilterTextInput(filterText) {
     this.setState({
       filterText: filterText
     });
   }
 
-  handleInStockOnlyInput(inStockInput){
+  handleInStockOnlyInput(inStockInput) {
     this.setState({
       inStockOnly: inStockInput
     });
   }
 
-  render(){
+  render() {
     return (
       <div>
         <SearchBar
@@ -1256,8 +1275,8 @@ class FilterableProductTable extends React.Component{
           onInStockOnlyInput={this.handleInStockOnlyInput}
         />
         <ProductTable products={this.props.products}
-          filterText={this.state.filterText}
-          inStockOnly={this.state.inStockOnly}
+                      filterText={this.state.filterText}
+                      inStockOnly={this.state.inStockOnly}
         />
       </div>
     );
@@ -1274,21 +1293,32 @@ let PRODUCTS = [
 ];
 
 ReactDom.render(
-  <FilterableProductTable products={PRODUCTS} />,
+  <FilterableProductTable products={PRODUCTS}/>,
   document.getElementById('product-container')
 );
 
 // props.children 可以是函数
-function Repeat(props){
+function Repeat(props) {
   let items = [];
-  for(let i = 0 ; i < props.numTimes; i ++){
+  for (let i = 0; i < props.numTimes; i++) {
     items.push(props.children(i));
   }
 
   return (<div>{items}</div>);
 }
 
-function ListOfTenThings(){
+// 对 Repeat 组件进行类型检测
+Repeat.propTypes = {
+  numTimes: function (props, prop, component) {
+    console.log('validation:', props, prop, component);
+
+    if (!/\d+/.test(props[prop])) {
+      return new Error('test:', component);
+    }
+  }
+};
+
+function ListOfTenThings() {
   return (
     <Repeat numTimes={10}>
       {(index) => <div key={index}>This is item {index} in the list</div>}

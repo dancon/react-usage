@@ -48,7 +48,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	__webpack_require__(186);
+	__webpack_require__(1);
 
 	var _react = __webpack_require__(9);
 
@@ -298,23 +298,23 @@
 
 	// 组件的状态
 	/*
-	function Clock(props){
-	  return (
-	    <div>
-	      <h1>Hello, world!</h1>
-	      <h2>It is {props.date.toLocaleString()}</h2>
-	    </div>
-	  );
-	}
+	 function Clock(props){
+	 return (
+	 <div>
+	 <h1>Hello, world!</h1>
+	 <h2>It is {props.date.toLocaleString()}</h2>
+	 </div>
+	 );
+	 }
 
-	function tick(){
-	  ReactDom.render(
-	    <Clock date={new Date} />,
-	    document.getElementById('clock-container')
-	  );
-	}
+	 function tick(){
+	 ReactDom.render(
+	 <Clock date={new Date} />,
+	 document.getElementById('clock-container')
+	 );
+	 }
 
-	setInterval(tick, 1000);*/
+	 setInterval(tick, 1000);*/
 
 	var Clock = function (_React$Component) {
 	  _inherits(Clock, _React$Component);
@@ -494,8 +494,8 @@
 	    key: 'handleClick',
 
 	    /*handleClick = () => {
-	      console.log('this is:', this);
-	    }*/
+	     console.log('this is:', this);
+	     }*/
 
 	    value: function handleClick() {
 	      console.log('this is:', this);
@@ -664,16 +664,16 @@
 	// 如果要隐藏元素本身，返回 null 即可
 
 	/*function WarningBanner(props){
-	  if(!props.warn){
-	    return null;
-	  }
+	 if(!props.warn){
+	 return null;
+	 }
 
-	  return (
-	    <div>
-	      warning~
-	    </div>
-	  );
-	}*/
+	 return (
+	 <div>
+	 warning~
+	 </div>
+	 );
+	 }*/
 
 	// 即使 component render 方法返回 null , 也不会影响声明周期方法的触发
 
@@ -772,17 +772,17 @@
 	// Lists and Keys
 
 	/*
-	const numbers = [1, 2, 3, 4, 5];
-	const listItems = numbers.map((number) => {
-	    return (<li>{number}</li>)
-	  }
-	);
+	 const numbers = [1, 2, 3, 4, 5];
+	 const listItems = numbers.map((number) => {
+	 return (<li>{number}</li>)
+	 }
+	 );
 
-	ReactDom.render(
-	  <ul>{listItems}</ul>,
-	  document.getElementById('list-container')
-	);
-	*/
+	 ReactDom.render(
+	 <ul>{listItems}</ul>,
+	 document.getElementById('list-container')
+	 );
+	 */
 
 	function NumberList(props) {
 	  var numbers = props.numbers;
@@ -835,9 +835,9 @@
 	}
 
 	/*ReactDom.render(
-	  <NumberListX number={numbers} />,
-	  document.getElementById('listx-container')
-	);*/
+	 <NumberListX number={numbers} />,
+	 document.getElementById('listx-container')
+	 );*/
 
 	// 修改版
 	function ListItemX(props) {
@@ -873,14 +873,14 @@
 
 	  // 我们可以把这次遍历直接 inline 到 JSX 中，不用单独声明一个变量来存储
 	  /*siderBar = (
-	    <ul>
-	      {
-	        posts.map(post => (
-	          <li key={post.id}>{props.id && post.id}{post.title}</li>
-	        ))
-	      }
-	    </ul>
-	  ),*/
+	   <ul>
+	   {
+	   posts.map(post => (
+	   <li key={post.id}>{props.id && post.id}{post.title}</li>
+	   ))
+	   }
+	   </ul>
+	   ),*/
 	  content = _react2.default.createElement(
 	    'ul',
 	    null,
@@ -1291,10 +1291,10 @@
 	    _classCallCheck(this, Calculator);
 
 	    /*
-	    this.state = {
-	      temperature: ''
-	    }
-	     this.handleChange = this.handleChange.bind(this);*/
+	     this.state = {
+	     temperature: ''
+	     }
+	      this.handleChange = this.handleChange.bind(this);*/
 	    var _this16 = _possibleConstructorReturn(this, (Calculator.__proto__ || Object.getPrototypeOf(Calculator)).call(this, props));
 
 	    _this16.state = {
@@ -1318,22 +1318,22 @@
 	    }
 
 	    /*handleChange(event){
-	      this.setState({
-	        temperature: event.target.value
-	      });
-	    }*/
+	     this.setState({
+	     temperature: event.target.value
+	     });
+	     }*/
 
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      /*const temperature = this.state.temperature;
-	      return (
-	        <fieldset>
-	          <legend>Enter temperature in Celsius:</legend>
-	          <input type="text" onChange={this.handleChange} value={this.state.temperature} />
-	          <BoilingVerdict celsius={parseFloat(temperature)}/>
-	        </fieldset>
-	      );*/
+	       return (
+	       <fieldset>
+	       <legend>Enter temperature in Celsius:</legend>
+	       <input type="text" onChange={this.handleChange} value={this.state.temperature} />
+	       <BoilingVerdict celsius={parseFloat(temperature)}/>
+	       </fieldset>
+	       );*/
 
 	      var scale = this.state.scale,
 	          temperature = this.state.temperature,
@@ -1450,6 +1450,16 @@
 	  );
 	}
 
+	Dialog.defaultProps = {
+	  title: 'This is a default title',
+	  message: 'this is a default message'
+	};
+
+	Dialog.propTypes = {
+	  title: _react2.default.PropTypes.string,
+	  message: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element])
+	};
+
 	function SpecialDialog() {
 	  return _react2.default.createElement(Dialog, { title: 'Hello Dialog',
 	    message: 'This is a special Dialog'
@@ -1492,8 +1502,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        Dialog,
-	        { title: 'Sign Up',
-	          message: 'Don\'t have a account, register'
+	        { message: 'Don\'t have a account, register'
 	        },
 	        _react2.default.createElement('input', { type: 'text', value: this.state.login,
 	          onChange: this.handleChange }),
@@ -1671,7 +1680,8 @@
 	      return _react2.default.createElement(
 	        'form',
 	        null,
-	        _react2.default.createElement('input', { type: 'text', value: this.props.filterText, onChange: this.handleFilterTextInputChange, placeholder: 'Search...' }),
+	        _react2.default.createElement('input', { type: 'text', value: this.props.filterText, onChange: this.handleFilterTextInputChange,
+	          placeholder: 'Search...' }),
 	        _react2.default.createElement(
 	          'p',
 	          null,
@@ -1759,6 +1769,17 @@
 	  );
 	}
 
+	// 对 Repeat 组件进行类型检测
+	Repeat.propTypes = {
+	  numTimes: function numTimes(props, prop, component) {
+	    console.log('validation:', props, prop, component);
+
+	    if (!/\d+/.test(props[prop])) {
+	      return new Error('test:', component);
+	    }
+	  }
+	};
+
 	function ListOfTenThings() {
 	  return _react2.default.createElement(
 	    Repeat,
@@ -1778,8 +1799,46 @@
 	_reactDom2.default.render(_react2.default.createElement(ListOfTenThings, null), document.getElementById('repeat-container'));
 
 /***/ },
-/* 1 */,
-/* 2 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(2);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(8)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js!./index1.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js!./index1.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)(undefined);
+	// imports
+
+
+	// module
+	exports.push([module.id, "html{\r\n  font-size: 16px;\r\n}", ""]);
+
+	// exports
+
+
+/***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -25563,46 +25622,6 @@
 
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
-
-/***/ },
-/* 186 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(187);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./index1.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./index1.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 187 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)(undefined);
-	// imports
-
-
-	// module
-	exports.push([module.id, "html{\r\n  font-size: 16px;\r\n}", ""]);
-
-	// exports
-
 
 /***/ }
 /******/ ]);
