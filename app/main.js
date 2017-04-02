@@ -7,7 +7,7 @@
  AppComponent = require('./components/productBox.jsx');
 
  ReactDom.render(<AppComponent />, document.getElementById('content'));*/
-
+import './css/index1.css';
 import React from 'react';
 import ReactDom from 'react-dom';
 
