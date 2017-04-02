@@ -20,7 +20,7 @@
 
 ![](./resource/react_propTypes.png)
 
-# React.PropTypes
+### React.PropTypes
 
 以下是 `React.PropTypes` 的所提供的所有校验器。
 
@@ -121,7 +121,7 @@
   };
 ```
 
-# Default Prop Values
+### Default Prop Values
 
 我们也可以为组件的 props 提供默认值，只需要为组件声明 `defaultProps` 属性即可：
 
