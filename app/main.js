@@ -1330,3 +1330,23 @@ ReactDom.render(
   <ListOfTenThings />,
   document.getElementById('repeat-container')
 );
+
+import CustomInput from './components/CustomInput';
+
+ReactDom.render(
+  <CustomInput />,
+  document.getElementById('refs-container')
+);
+
+import AutoFocusTextInput from './components/AutoFocusTextInput.jsx';
+
+ReactDom.render(
+  <AutoFocusTextInput />,
+  document.getElementById('auto-focus-container')
+);
+
+import Parent from './components/Parent.jsx';
+ReactDom.render(
+  <Parent />,
+  document.getElementById('parent-container')
+);

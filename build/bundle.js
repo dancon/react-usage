@@ -58,6 +58,18 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _CustomInput = __webpack_require__(186);
+
+	var _CustomInput2 = _interopRequireDefault(_CustomInput);
+
+	var _AutoFocusTextInput = __webpack_require__(187);
+
+	var _AutoFocusTextInput2 = _interopRequireDefault(_AutoFocusTextInput);
+
+	var _Parent = __webpack_require__(188);
+
+	var _Parent2 = _interopRequireDefault(_Parent);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1797,6 +1809,12 @@
 	}
 
 	_reactDom2.default.render(_react2.default.createElement(ListOfTenThings, null), document.getElementById('repeat-container'));
+
+	_reactDom2.default.render(_react2.default.createElement(_CustomInput2.default, null), document.getElementById('refs-container'));
+
+	_reactDom2.default.render(_react2.default.createElement(_AutoFocusTextInput2.default, null), document.getElementById('auto-focus-container'));
+
+	_reactDom2.default.render(_react2.default.createElement(_Parent2.default, null), document.getElementById('parent-container'));
 
 /***/ },
 /* 1 */
@@ -25622,6 +25640,219 @@
 
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+
+/***/ },
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(9);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// React refs
+	var CustomInput = function (_React$Component) {
+	  _inherits(CustomInput, _React$Component);
+
+	  function CustomInput(props) {
+	    _classCallCheck(this, CustomInput);
+
+	    var _this = _possibleConstructorReturn(this, (CustomInput.__proto__ || Object.getPrototypeOf(CustomInput)).call(this, props));
+
+	    _this.focus = _this.focus.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(CustomInput, [{
+	    key: 'focus',
+	    value: function focus() {
+	      this.textInput.focus();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement('input', { type: 'text', ref: function ref(input) {
+	            console.log('CustomInput:', input);
+	            _this2.textInput = input;
+	          } }),
+	        _react2.default.createElement('input', { type: 'button', value: 'Focus the text input', onClick: this.focus })
+	      );
+	    }
+	  }]);
+
+	  return CustomInput;
+	}(_react2.default.Component);
+
+	exports.default = CustomInput;
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(9);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _CustomInput = __webpack_require__(186);
+
+	var _CustomInput2 = _interopRequireDefault(_CustomInput);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * create by John at 2017/4/4 0004
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var AutoFocusTextInput = function (_React$Component) {
+	  _inherits(AutoFocusTextInput, _React$Component);
+
+	  function AutoFocusTextInput() {
+	    _classCallCheck(this, AutoFocusTextInput);
+
+	    return _possibleConstructorReturn(this, (AutoFocusTextInput.__proto__ || Object.getPrototypeOf(AutoFocusTextInput)).apply(this, arguments));
+	  }
+
+	  _createClass(AutoFocusTextInput, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.textInput.focus();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(_CustomInput2.default, { ref: function ref(input) {
+	          console.log('AutoFocusTextInput:', input);
+	          _this2.textInput = input;
+	        } });
+	    }
+	  }]);
+
+	  return AutoFocusTextInput;
+	}(_react2.default.Component);
+
+	exports.default = AutoFocusTextInput;
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(9);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FunctionalComponent = __webpack_require__(189);
+
+	var _FunctionalComponent2 = _interopRequireDefault(_FunctionalComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * create by John at 2017/4/4 0004
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var Parent = function (_React$Component) {
+	  _inherits(Parent, _React$Component);
+
+	  function Parent() {
+	    _classCallCheck(this, Parent);
+
+	    return _possibleConstructorReturn(this, (Parent.__proto__ || Object.getPrototypeOf(Parent)).apply(this, arguments));
+	  }
+
+	  _createClass(Parent, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log('Parent:', this.textInput);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return (
+	        // 函数式的 React 组件使用 ref 时是不会有组件实例的
+	        _react2.default.createElement(_FunctionalComponent2.default, {
+	          ref: function ref(input) {
+	            console.log('FunctionalComponent ref callback:', input);
+	            _this2.textInput = input;
+	          }
+	        })
+	      );
+	    }
+	  }]);
+
+	  return Parent;
+	}(_react2.default.Component);
+
+	exports.default = Parent;
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function () {
+	  return _react2.default.createElement("input", { type: "text" });
+	};
+
+	var _react = __webpack_require__(9);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }
 /******/ ]);
