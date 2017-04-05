@@ -1816,6 +1816,84 @@
 
 	_reactDom2.default.render(_react2.default.createElement(_Parent2.default, null), document.getElementById('parent-container'));
 
+	// React without ES6
+	var SayHello = _react2.default.createClass({
+	  displayName: 'SayHello',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      message: 'Hello'
+	    };
+	  },
+	  handleClick: function handleClick() {
+	    alert(this.state.message);
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'button',
+	      { onClick: this.handleClick },
+	      'Say Hello'
+	    );
+	  }
+	});
+
+	_reactDom2.default.render(_react2.default.createElement(SayHello, null), document.getElementById('say-hello-container'));
+
+	// mixin
+	var SetIntervalMixin = {
+	  componentWillMount: function componentWillMount() {
+	    this.intervals = [];
+	  },
+	  setInterval: function (_setInterval) {
+	    function setInterval() {
+	      return _setInterval.apply(this, arguments);
+	    }
+
+	    setInterval.toString = function () {
+	      return _setInterval.toString();
+	    };
+
+	    return setInterval;
+	  }(function () {
+	    this.intervals.push(setInterval.apply(null, arguments));
+	  }),
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.intervals.forEach(clearInterval);
+	  }
+	},
+	    TickTock = _react2.default.createClass({
+	  displayName: 'TickTock',
+
+	  mixins: [SetIntervalMixin],
+	  getInitialState: function getInitialState() {
+	    return {
+	      seconds: 0
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.setInterval(this.tick, 1000);
+	  },
+
+	  tick: function tick() {
+	    this.setState({
+	      seconds: this.state.seconds + 1
+	    });
+	  },
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'p',
+	      null,
+	      'React has run for ',
+	      this.state.seconds,
+	      ' seconds.'
+	    );
+	  }
+	});
+
+	_reactDom2.default.render(_react2.default.createElement(TickTock, null), document.getElementById('mixin-container'));
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {

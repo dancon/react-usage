@@ -1350,3 +1350,67 @@ ReactDom.render(
   <Parent />,
   document.getElementById('parent-container')
 );
+
+// React without ES6
+var SayHello = React.createClass({
+  getInitialState: function(){
+    return {
+      message: 'Hello'
+    }
+  },
+  handleClick: function(){
+    alert(this.state.message);
+  },
+  render: function(){
+    return <button onClick={this.handleClick}>
+      Say Hello
+    </button>
+  }
+});
+
+ReactDom.render(
+  <SayHello />,
+  document.getElementById('say-hello-container')
+);
+
+// mixin
+var SetIntervalMixin = {
+  componentWillMount: function(){
+    this.intervals = [];
+  },
+  setInterval: function(){
+    this.intervals.push(setInterval.apply(null, arguments));
+  },
+  componentWillUnmount: function(){
+    this.intervals.forEach(clearInterval);
+  }
+},
+  TickTock = React.createClass({
+    mixins: [SetIntervalMixin],
+    getInitialState: function(){
+      return {
+        seconds: 0
+      };
+    },
+
+    componentDidMount: function(){
+      this.setInterval(this.tick, 1000);
+    },
+
+    tick: function(){
+      this.setState({
+        seconds: this.state.seconds + 1
+      });
+    },
+
+    render: function(){
+      return (
+        <p>React has run for {this.state.seconds} seconds.</p>
+      );
+    }
+  });
+
+ReactDom.render(
+  <TickTock />,
+  document.getElementById('mixin-container')
+);
