@@ -1861,7 +1861,9 @@
 	    this.intervals.forEach(clearInterval);
 	  }
 	},
-	    TickTock = _react2.default.createClass({
+
+	// 不使用 ES6 的情况下创建有状态的组件必须提供 getInitialState 方法
+	TickTock = _react2.default.createClass({
 	  displayName: 'TickTock',
 
 	  mixins: [SetIntervalMixin],
@@ -1882,17 +1884,18 @@
 	  },
 
 	  render: function render() {
-	    return _react2.default.createElement(
-	      'p',
-	      null,
-	      'React has run for ',
-	      this.state.seconds,
-	      ' seconds.'
-	    );
+	    /*return (
+	      <p>React has run for {this.state.seconds} seconds.</p>
+	    );*/
+
+	    // 不使用 JSX
+	    return _react2.default.createElement('p', null, 'React has run for ' + this.state.seconds + ' seconds.');
 	  }
 	});
 
-	_reactDom2.default.render(_react2.default.createElement(TickTock, null), document.getElementById('mixin-container'));
+	_reactDom2.default.render(
+	/*<TickTock />,*/
+	_react2.default.createElement(TickTock, null, null), document.getElementById('mixin-container'));
 
 /***/ },
 /* 1 */

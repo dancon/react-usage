@@ -1385,6 +1385,7 @@ var SetIntervalMixin = {
     this.intervals.forEach(clearInterval);
   }
 },
+  // 不使用 ES6 的情况下创建有状态的组件必须提供 getInitialState 方法
   TickTock = React.createClass({
     mixins: [SetIntervalMixin],
     getInitialState: function(){
@@ -1404,13 +1405,17 @@ var SetIntervalMixin = {
     },
 
     render: function(){
-      return (
+      /*return (
         <p>React has run for {this.state.seconds} seconds.</p>
-      );
+      );*/
+
+      // 不使用 JSX
+      return React.createElement('p', null, 'React has run for ' + this.state.seconds + ' seconds.');
     }
   });
 
 ReactDom.render(
-  <TickTock />,
+  /*<TickTock />,*/
+  React.createElement(TickTock, null, null),
   document.getElementById('mixin-container')
 );
