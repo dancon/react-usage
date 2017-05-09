@@ -1,6 +1,6 @@
 # Refs and the DOM
 
-在 React 数据流中，`props` 是父组件与自组建交互的唯一方式。为了能够修改子组件，我们只能为为 props 提供新值然后重新渲染。然后，总是会有一些场景，让我们使用 props 无法达到我们的目的。要被修改的子内容，可以是 React Component 的实例，也可以是 DOM 元素。React 提供了一种安全的方式来达到修改 React Component 元素或者 DOM 元素。
+在 React 数据流中，`props` 是父组件与子组件交互的唯一方式。为了能够修改子组件，我们只能为 props 提供新值然后重新渲染。然后，总是会有一些场景，让我们使用 props 无法达到我们的目的。要被修改的子内容，可以是 React Component 的实例，也可以是 DOM 元素。React 提供了一种安全的方式来达到修改 React Component 元素或者 DOM 元素。
 
 ### When to Use Refs
 
